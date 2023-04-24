@@ -1,4 +1,4 @@
-import axios  from "../axios";
+import axios from "../axios";
 import * as Components from "./Components";
 // import "../../src/styles.css";
 import React, { useState } from "react";
@@ -32,73 +32,75 @@ function LoginRegister() {
   };
   const handleInputChange2 = (e) => {
     const { name, value } = e.target;
-    setValues1({
-      ...values1,
+    setValues2({
+      ...values2,
       [name]: value,
     });
   };
   console.log(values1);
-  
+
   const signUpSubmit = (e) => {
     e.preventDefault()
     console.log(values1)
-    var data ={
+    var data = {
       "name": values1.sname,
       "email": values1.semail,
       "password": values1.spassword,
-      "userrole": "EMPLOYEE",
+      "userrole": "USER",
       "accessType": "PENDING"
-  }
-  axios
-  .post("/api/users/", data)
-  .then((res) => {
-    // window.location.reload(false);
-    console.log(res);
-   
-  localStorage.setItem("adminAuth", JSON.stringify(res.data));
-  if (res.data.userrole) {
-  localStorage.setItem("role", JSON.stringify(res.data.userrole));
-  if (res.data.userrole==='ADMIN') {
-    window.location.href = "/admin";
-  }else if (res.data.userrole==='EMPLOYEE'){
-    window.location.href = "/employee";
-  }else if (res.data.userrole==='USER'){
-    window.location.href = "/user";
-  }
-}
-  })
-  .catch((error) => {
-    
-  });
+    }
+    axios
+      .post("/api/users/", data)
+      .then((res) => {
+        // window.location.reload(false);
+        console.log(res);
+
+        localStorage.setItem("adminAuth", JSON.stringify(res.data));
+        if (res.data.userrole) {
+          localStorage.setItem("role", JSON.stringify(res.data.userrole));
+          if (res.data.userrole === 'ADMIN') {
+            window.location.href = "/admin";
+          } else if (res.data.userrole === 'EMPLOYEE') {
+            window.location.href = "/employee";
+          } else if (res.data.userrole === 'USER') {
+            window.location.href = "/user";
+          }
+        }
+      })
+      .catch((error) => {
+
+      });
   }
   const signInSubmit = (e) => {
     e.preventDefault()
     console.log(values2)
-    var data ={
-      "email": values2.sname,
-      "password": values2.spassword,
-      "userrole": "ADMIN",
+    var data = {
+      "email": values2.remail,
+      "password": values2.rpassword,
+      "userrole": "EMPLOYEE",
       "accessType": "PENDING"
-  }
-  axios
-  .post("/api/users/login", data)
-  .then((res) => {
-    console.log(res);
-  localStorage.setItem("adminAuth", JSON.stringify(res.data));
-  if (res.data.userrole) {
-  localStorage.setItem("role", JSON.stringify(res.data.userrole));
-  if (res.data.userrole==='ADMIN') {
-    window.location.href = "/admin";
-  }else if (res.data.userrole==='EMPLOYEE'){
-    window.location.href = "/employee";
-  }else if (res.data.userrole==='USER'){
-    window.location.href = "/user";
-  }
-}
-  })
-  .catch((error) => {
-    
-  });
+    }
+    axios
+      .post("/api/users/login", data)
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem("adminAuth", JSON.stringify(res.data));
+        if (res.data.userrole) {
+          console.log(JSON.stringify(res.data.userrole));
+
+          localStorage.setItem("role", res.data.userrole)
+          if (res.data.userrole === 'ADMIN') {
+            window.location.href = "/admin";
+          } else if (res.data.userrole === 'EMPLOYEE') {
+            window.location.href = "/employee";
+          } else if (res.data.userrole === 'USER') {
+            window.location.href = "/user";
+          }
+        }
+      })
+      .catch((error) => {
+
+      });
   }
   return (
     <Components.Container>
@@ -119,9 +121,9 @@ function LoginRegister() {
         <Components.Form>
           <Components.Title>Sign in</Components.Title>
           <Components.Input type="email" placeholder="Email" name="remail" onChange={handleInputChange2}
-            value={values1.remail} />
+            value={values2.remail} />
           <Components.Input type="password" placeholder="Password" name="rpassword" onChange={handleInputChange2}
-            value={values1.rpassword} />
+            value={values2.rpassword} />
           <Components.Anchor href="#">Forgot your password?</Components.Anchor>
           <Components.Button onClick={signInSubmit}>Sigin In</Components.Button>
         </Components.Form>

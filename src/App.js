@@ -137,6 +137,7 @@ const Roles =localStorage.getItem("role")
           )}
         </ul>
       </NavBar>
+      userType  {userType}
       <Routes>
         {/* <Route
        path="/"
