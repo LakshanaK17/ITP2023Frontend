@@ -13,11 +13,13 @@ export default function Select(props) {
                 label={label}
                 name={name}
                 value={value}
-                onChange={onChange}>
+                onChange={onChange}
+                sx={{width:"500px",
+                margin:"4px 5px"}}>
                 <MenuItem value="">None</MenuItem>
                 {
                     options.map(
-                        item => (<MenuItem key={item.id} value={item.id}>{item.title}</MenuItem>)
+                        item => (<MenuItem key={item._id} value={item.email}>{item.email}</MenuItem>)
                     )
                 }
             </MuiSelect>

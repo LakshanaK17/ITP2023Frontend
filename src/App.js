@@ -27,6 +27,8 @@ import Usercomplain from "./Component/usercomplain/Usercomplain";
 import EmployeeLeaves from "./Component/employeeleave/EmployeeLeave";
 import EditUserComplainData from "./Component/userComplainData/EditUserComplainData";
 import EditEmployeeData from "./Component/datatable/EditDatatable";
+import Addvehicle from "./Component/vehicletable/AddVehicle";
+import EditVehicle from "./Component/vehicletable/editVehicle";
 // import "../src/styles.css";
 
 function App() {
@@ -93,6 +95,15 @@ function App() {
     {
       path: "/vehicles",
       component: <Vehicle />,
+      exact: true,
+    },
+    {
+      path: "/vehicles/add",
+      component: <Addvehicle />,
+      exact: true,
+    }, {
+      path: "/vehicles/edit/:id",
+      component: <EditVehicle />,
       exact: true,
     },
     {
