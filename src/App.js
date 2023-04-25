@@ -25,6 +25,8 @@ import Single from "./Component/employeesingle/Single";
 import New from "./Component/new/New";
 import Usercomplain from "./Component/usercomplain/Usercomplain";
 import EmployeeLeaves from "./Component/employeeleave/EmployeeLeave";
+import EditUserComplainData from "./Component/userComplainData/EditUserComplainData";
+import EditEmployeeData from "./Component/datatable/EditDatatable";
 // import "../src/styles.css";
 
 function App() {
@@ -83,6 +85,10 @@ function App() {
       path: "/employees",
       component: <List />,
       exact: true,
+    },{
+      path: "/employees/edit/:id",
+      component: <EditEmployeeData />,
+      exact: true,
     },
     {
       path: "/vehicles",
@@ -97,6 +103,11 @@ function App() {
     {
       path: "complains",
       component: <Usercomplain />,
+      exact: true,
+    },
+    {
+      path: "complains/edit/:id",
+      component: <EditUserComplainData />,
       exact: true,
     },
     {
