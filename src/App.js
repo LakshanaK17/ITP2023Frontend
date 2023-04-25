@@ -28,6 +28,9 @@ import EmployeeLeaves from "./Component/employeeleave/EmployeeLeave";
 import EditUserComplainData from "./Component/userComplainData/EditUserComplainData";
 import EditEmployeeData from "./Component/datatable/EditDatatable";
 import Addvehicle from "./Component/vehicletable/AddVehicle";
+import EmployeeHome from "./Component/employeehome/EmployeeHome";
+import UserHome from "./Component/userhome/UserHome";
+import EmployeeProfile from "./Component/employeeprofile/EmployeeProfile";
 import EditVehicle from "./Component/vehicletable/editVehicle";
 // import "../src/styles.css";
 
@@ -87,7 +90,8 @@ function App() {
       path: "/employees",
       component: <List />,
       exact: true,
-    },{
+    },
+    {
       path: "/employees/edit/:id",
       component: <EditEmployeeData />,
       exact: true,
@@ -101,7 +105,8 @@ function App() {
       path: "/vehicles/add",
       component: <Addvehicle />,
       exact: true,
-    }, {
+    },
+    {
       path: "/vehicles/edit/:id",
       component: <EditVehicle />,
       exact: true,
@@ -135,6 +140,11 @@ function App() {
   const UserRoutes = [
     {
       path: "/",
+      component: <UserHome />,
+      exact: true,
+    },
+    {
+      path: "/userprofile",
       component: <UserComplain />,
       exact: true,
     },
@@ -143,11 +153,31 @@ function App() {
       component: <UserComplain />,
       exact: true,
     },
+    {
+      path: "/employeecomplainequest",
+      component: <UserComplain />,
+      exact: true,
+    },
+    {
+      path: "/seatbooking",
+      component: <UserComplain />,
+      exact: true,
+    },
   ];
   const EmployeeRoutes = [
     {
-      path: "/",
+      path: "/employeehome",
+      component: <EmployeeHome />,
+      exact: true,
+    },
+    {
+      path: "/employeeleaverequest",
       component: <EmployeeLeave />,
+      exact: true,
+    },
+    {
+      path: "/employeeprofile",
+      component: <EmployeeProfile />,
       exact: true,
     },
     {

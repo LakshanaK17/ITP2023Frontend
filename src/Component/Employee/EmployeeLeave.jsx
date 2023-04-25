@@ -149,12 +149,12 @@ const EmployeeLeave = () => {
         margin-top: 20px;
 `;
 
-const [request, setRequest] = useState({
-  leaveTitle: '',
-  type: '',
-  status: '',
-  message: '',
-});
+// const [request, setRequest] = useState({
+//   leaveTitle: '',
+//   type: '',
+//   status: '',
+//   message: '',
+// });
   const {
       date,
       time,
@@ -192,6 +192,41 @@ const [request, setRequest] = useState({
     // add product with selected quantity to cart
     console.log(`Added ${quantity} to cart`);
   };
+const data1 = {
+  leaveTitle:"",
+  leaveBody: "",
+}
+  // const [data, setData] = React.useState(data1);
+  // const OnSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log(values1);
+  //   var data = {
+  //     name: values1.sname,
+  //     email: values1.semail,
+  //     password: values1.spassword,
+  //     userrole: "EMPLOYEE",
+  //     accessType: "PENDING",
+  //   };
+  //   axios
+  //     .post("/api/users/", data)
+  //     .then((res) => {
+  //       // window.location.reload(false);
+  //       console.log(res);
+
+  //       localStorage.setItem("adminAuth", JSON.stringify(res.data));
+  //       if (res.data.userrole) {
+  //         localStorage.setItem("role", JSON.stringify(res.data.userrole));
+  //         if (res.data.userrole === "ADMIN") {
+  //           window.location.href = "/admin";
+  //         } else if (res.data.userrole === "EMPLOYEE") {
+  //           window.location.href = "/employee";
+  //         } else if (res.data.userrole === "USER") {
+  //           window.location.href = "/user";
+  //         }
+  //       }
+  //     })
+  //     .catch((error) => {});
+  // };
 
   return (
     <Container>

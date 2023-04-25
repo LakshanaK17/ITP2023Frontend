@@ -46,7 +46,7 @@ function LoginRegister() {
       name: values1.sname,
       email: values1.semail,
       password: values1.spassword,
-      userrole: "ADMIN",
+      userrole: "USER",
       accessType: "PENDING",
     };
     axios
@@ -75,7 +75,7 @@ function LoginRegister() {
     var data = {
       email: values2.remail,
       password: values2.rpassword,
-      userrole: "ADMIN",
+      userrole: "USER",
       accessType: "PENDING",
     };
     axios
