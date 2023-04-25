@@ -17,7 +17,11 @@ import { useContext } from "react";
 
 const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
-  
+  const logout = ()=>{
+    console.log("log");
+    localStorage.clear();
+    window.location.href ='/'
+  }
 
   return (
     <div className="sidebar">
@@ -31,10 +35,10 @@ const Sidebar = () => {
         <ul>
           <p className="title">MAIN</p>
           <Link to="/" style={{ textDecoration: "none" }}>
-          <li>
-            <DashboardIcon className="icon" />
-            <span>Dashboard</span>
-          </li>
+            <li>
+              <DashboardIcon className="icon" />
+              <span>Dashboard</span>
+            </li>
           </Link>
           <p className="title">LISTS</p>
           <Link to="/employeeprofile" style={{ textDecoration: "none" }}>
@@ -46,7 +50,7 @@ const Sidebar = () => {
           <Link to="/employeeleaverequest" style={{ textDecoration: "none" }}>
             <li>
               <StoreIcon className="icon" />
-              <span>Leaves</span>
+              <span>Add Leaves</span>
             </li>
           </Link>
           {/* <Link to="/complains" style={{ textDecoration: "none" }}>
@@ -75,35 +79,20 @@ const Sidebar = () => {
             <SettingsSystemDaydreamOutlinedIcon className="icon" />
             <span>System Health</span>
           </li> */}
-          <li>
-            <PsychologyOutlinedIcon className="icon" />
-            <span>Logs</span>
-          </li>
-          <li>
-            <SettingsApplicationsIcon className="icon" />
-            <span>Settings</span>
-          </li>
-          <p className="title">USER</p>
-          <li>
-            <AccountCircleOutlinedIcon className="icon" />
-            <span>Profile</span>
-          </li>
-          <li>
+          <Link to="/allleave" style={{ textDecoration: "none" }}>
+            <li>
+              <PsychologyOutlinedIcon className="icon" />
+              <span>Old Leave</span>
+            </li>
+          </Link>
+          
+          <li onClick={logout} >
             <ExitToAppIcon className="icon" />
             <span>Logout</span>
           </li>
         </ul>
       </div>
-      <div className="bottom">
-        <div
-          className="colorOption"
-          onClick={() => dispatch({ type: "LIGHT" })}
-        ></div>
-        <div
-          className="colorOption"
-          onClick={() => dispatch({ type: "DARK" })}
-        ></div>
-      </div>
+      
     </div>
   );
 };

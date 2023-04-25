@@ -17,7 +17,7 @@ import AdminPage from "./Component/AdminPage";
 import LoginPage from "./Component/LoginPage";
 import AddUsers from "./Component/AddUsers";
 import EmployeeDetails from "./Component/EmployeeDetails";
-import UserComplain from "./Component/UserComplain";
+import UserComplain from "./Component/userComplains/UserComplain";
 import List from "./Component/list/List";
 import Home from "./Component/home/Home";
 import Vehicle from "./Component/vehicle/Vehicle";
@@ -32,6 +32,13 @@ import EmployeeHome from "./Component/employeehome/EmployeeHome";
 import UserHome from "./Component/userhome/UserHome";
 import EmployeeProfile from "./Component/employeeprofile/EmployeeProfile";
 import EditVehicle from "./Component/vehicletable/editVehicle";
+import RequestingLeave from "./Component/Employee/main";
+import OllLeave from "./Component/EmployeeLeaveMain/List";
+import UserComplainMain from "./Component/usercomplainMain/Usercomplain";
+import UserComplainMains from "./Component/userComplains/main";
+import Reservation from "./Component/userSeatBooking/main";
+import ReservationEdit from "./Component/userSeatBooking/editMain";
+import ReservationAdd from "./Component/userSeatBooking/addMain";
 // import "../src/styles.css";
 
 function App() {
@@ -65,11 +72,16 @@ function App() {
       {...rest}
       exact={true}
       path="/admin"
-      // element={userType === "admin" ? <Login /> : <Login />}
+    // element={userType === "admin" ? <Login /> : <Login />}
     />
   );
 
   const AdminRoutes = [
+    {
+      path: "/",
+      component: <Home />,
+      exact: true,
+    },
     {
       path: "/dashboard",
       component: <Home />,
@@ -154,25 +166,55 @@ function App() {
       exact: true,
     },
     {
-      path: "/usercomplainequest/add",
-      component: <UserComplain />,
+      path: "/usercomplainequest",
+      component: <UserComplainMain />,
       exact: true,
     },
     {
-      path: "/seatbooking",
-      component: <UserComplain />,
+      path: "/complainequest",
+      component: <UserComplainMains />,
+      exact: true,
+    },
+    {
+      path: "/reservation",
+      component: <Reservation />,
+      exact: true,
+    }, 
+    {
+      path: "/reservation/edit/:id",
+      component: <ReservationEdit />,
+      exact: true,
+    },
+    {
+      path: "/reservation/add",
+      component: <ReservationAdd />,
+      exact: true,
+    }, 
+    {
+      path: "*",
+      component: <UserHome />,
       exact: true,
     },
   ];
   const EmployeeRoutes = [
+    {
+      path: "/employee",
+      component: <EmployeeHome />,
+      exact: true,
+    },
     {
       path: "/employeehome",
       component: <EmployeeHome />,
       exact: true,
     },
     {
-      path: "/employeeleaverequest/add",
-      component: <EmployeeLeave />,
+      path: "/employeeleaverequest",
+      component: <RequestingLeave />,
+      exact: true,
+    },
+    {
+      path: "/allleave",
+      component: <OllLeave />,
       exact: true,
     },
     {
@@ -182,6 +224,11 @@ function App() {
     },
     {
       path: "/",
+      component: <EmployeeHome />,
+      exact: true,
+    },
+    {
+      path: "*",
       component: <EmployeeHome />,
       exact: true,
     },

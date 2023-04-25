@@ -1,6 +1,7 @@
-import Sidebar from "../../Component/usersidebar/UserSidebar"
+import Sidebar from "../../Component/employeesidebar/EmployeeSidebar"
 import Navbar from "../../Component/navbar/Navbar"
-import "./userhome.css";
+import EmployeeLeave from "./EmployeeLeave";
+import "./employeeHome.css";
 // import Widget from "../../components/widget/Widget";
 // import Featured from "../../components/featured/Featured";
 // import Chart from "../../components/chart/Chart";
@@ -16,14 +17,14 @@ const Home = () => {
           {/* <Widget type="user" />
           <Widget type="order" />
           <Widget type="earning" />
-          <AWidget type="balance" /> */}
+          <Widget type="balance" /> */}
         </div>
         <div className="charts">
           {/* <Featured /> */}
           {/* <Chart title="Last 6 Months (Revenue)" aspect={2 / 1} /> */}
         </div>
         <div className="listContainer">
-          <div className="listTitle">Latest Transactions</div>
+        <EmployeeLeave/>
           {/* <Table /> */}
         </div>
       </div>

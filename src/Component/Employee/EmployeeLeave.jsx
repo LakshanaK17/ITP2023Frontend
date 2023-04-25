@@ -15,8 +15,8 @@ const initialValue = {
     // driverName: ""
 }
 const initialValueErr = {
-  name: false,
-  body:false,
+    name: false,
+    body: false,
     // date: false,
     // time: false,
     // name: false,
@@ -27,8 +27,8 @@ const initialValueErr = {
 
 }
 const initialValueErrMsg = {
-   name: false,
-  body:false,
+    name: false,
+    body: false,
     // date: "",
     // time: '',
     // name: '',
@@ -46,7 +46,7 @@ const Container = styled(FormGroup)`
         margin-top: 20px;
 `;
 
-const Addleave = () => {
+const EmployeeLeave = () => {
     const [user, setUser] = useState(initialValue);
     const [DriverOpt, setDriverOpt] = useState(initialValue);
     // const [userErr, setUserErr] = useState(initialValueErr);
@@ -55,10 +55,10 @@ const Addleave = () => {
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
         if ("title" in fieldValues) {
-          temp.title = fieldValues.title ? "" : "This field is required.";
+            temp.title = fieldValues.title ? "" : "This field is required.";
         }
         if ("body" in fieldValues) {
-          temp.body = fieldValues.body ? "" : "This field is required.";
+            temp.body = fieldValues.body ? "" : "This field is required.";
         }
 
         // if ('time' in fieldValues)
@@ -91,7 +91,7 @@ const Addleave = () => {
     const handleSubmit = e => {
         e.preventDefault()
         if (true) {
-            addUserDetails()
+            addEmpLeave()
 
         }
     }
@@ -100,7 +100,7 @@ const Addleave = () => {
     const {
         title,
         body,
-        } = user;
+    } = user;
 
     let navigate = useNavigate();
 
@@ -114,83 +114,21 @@ const Addleave = () => {
         setUser({ ...user, [e.target.name]: e.target.value })
     }
 
-    const addUserDetails = async () => {
-        console.log(values);
-        await addUser('api/leave', values);
-        navigate('/employeeleaverequest');
+    const addEmpLeave = async () => {
+        let userDetails = JSON.parse(localStorage.getItem("adminAuth"))
+        let userId =userDetails ? userDetails._id:"not found"
+        let data ={
+            "leaveTitle":values.title,
+            "leaveBody":values.body,
+            "adminResponse":"",
+            "userId":userId
+        }
+        console.log(userDetails,data);
+        await addUser('api/leave', data);
+        navigate('/allleave');
     }
-    useEffect(() => {
-        loadUserDetails();
-    }, []);
-    const loadUserDetails = async () => {
-        const response = await getUsers('api/users/all');
-        if (response.data) {
-            let emp = response.data.filter((item) => item.userrole === 'EMPLOYEE')
-            console.log(response, emp);
-            setDriverOpt(emp)
-        }
-    }
-    const dd =[
-        {
-            "_id": "64465f22b119ab02d4ac4eb7",
-            "name": "abc",
-            "userrole": "EMPLOYEE",
-            "email": "abc@gnam.cid",
-            "password": "$2a$10$7cJbYMzRSeZzTJXiWlKtBOlnBsSUArHzDyyvbe12mfu3fBrdvAPya",
-            "accessType": "PENDING",
-            "createdAt": "2023-04-24T10:51:14.415Z",
-            "updatedAt": "2023-04-24T10:51:14.415Z",
-            "__v": 0
-        },
-        {
-            "_id": "64465f35b119ab02d4ac4eba",
-            "name": "cdddde",
-            "userrole": "EMPLOYEE",
-            "email": "defe",
-            "password": "$2a$10$gAXjEf8Sl7mqg1hDBQ9BNu5Iq1JFIl0gwBl1bUVpQ/X5MS82.Mb0i",
-            "accessType": "PENDING",
-            "createdAt": "2023-04-24T10:51:33.942Z",
-            "updatedAt": "2023-04-24T10:51:33.942Z",
-            "__v": 0
-        },
-        {
-            "_id": "644668836193c6518a3ced01",
-            "name": "rushanth",
-            "userrole": "EMPLOYEE",
-            "email": "B1@B.com",
-            "password": "$2a$10$wc0a8Jq9Qll9rk/PFzw4juGmKpUj9.i1SnKtW.70JVyDLgQL1czjK",
-            "accessType": "Pending",
-            "createdAt": "2023-04-24T11:31:15.394Z",
-            "updatedAt": "2023-04-24T11:31:15.394Z",
-            "__v": 0
-        },
-        {
-            "_id": "6446abfd41f90ca1fe42f7f9",
-            "name": "asdfgh",
-            "userrole": "EMPLOYEE",
-            "email": "lakshana@gmail.com",
-            "password": "$2a$10$J4htpcsVecyJSPm8eqLsY.vvGCZHa2oVfHE8Xg4kHDHsmkYI8YEN6",
-            "accessType": "PENDING",
-            "createdAt": "2023-04-24T16:19:09.961Z",
-            "updatedAt": "2023-04-24T16:19:09.961Z",
-            "__v": 0
-        }
-    ]
-    const VType =[
-        {
-            "_id": "CAR",
-            "email": "CAR",
-        },
-        {
-            "_id": "VAN",
-            "email": "VAN",
-        },
-        {
-            "_id": "BUS",
-            "email": "BUS",
-        }
+    
 
-    ]
     return (
         <Container>
 
@@ -206,8 +144,8 @@ const Addleave = () => {
                             error={errors.title}
                             type="name"
                         />
-                        
-                       
+
+
                         <Controls.Input
                             name="body"
                             label="Body"
@@ -215,37 +153,7 @@ const Addleave = () => {
                             onChange={handleInputChange}
                             error={errors.body}
                         />
-                        <Controls.Input
-                            name="adminResponse"
-                            label="Admin Response"
-                            value={values.adminResponse}
-                            onChange={handleInputChange}
-                            error={errors.adminResponse}
-                        />
 
-                        {/* <Controls.Input
-                            name="driverName"
-                            label="driverName"
-                            value={values.driverName}
-                            onChange={handleInputChange}
-                            error={errors.driverName}
-                        /> */}
-                        {/* <Controls.Select
-                            name="type"
-                            label="Type"
-                            value={values.type}
-                            onChange={handleInputChange}
-                            options={VType}
-                            error={errors.type}
-                        /> */}
-                        {/* {DriverOpt && <Controls.Select
-                            name="driverName"
-                            label="Driver Name"
-                            value={values.driverName}
-                            onChange={handleInputChange}
-                            options={dd}
-                            error={errors.driverName}
-                        />} */}
                     </Grid >
                 </Grid >
 
@@ -267,4 +175,4 @@ const Addleave = () => {
     )
 }
 
-export default Addleave;
+export default EmployeeLeave;

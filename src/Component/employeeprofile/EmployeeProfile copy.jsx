@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: '56.25%', // 16:9
   },
   avatar: {
-    backgroundColor: "#ccc"
+    backgroundColor: theme.palette.secondary.main,
   },
 }));
 

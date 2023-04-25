@@ -1,8 +1,8 @@
 import react, { useState, useEffect } from 'react';
 import { Table, TableHead, TableCell, Paper, TableRow, TableBody, Button, styled, Grid } from '@mui/material'
-import { getUsers, deleteUser } from '../../Service/api';
+import { getUsers, deleteUser } from '../../../Service/api';
 import { Link } from 'react-router-dom';
-import Input from '../controls/Input';
+import Input from '../../controls/Input';
 
 const StyledTable = styled(Table)`
     width: 90%;
@@ -38,12 +38,14 @@ const AllUsers = () => {
   }
 
   const getAllUsers = async () => {
-    let response = await getUsers('api/users/all');
-    let emp = response.data.filter((item) => item.userrole === "EMPLOYEE");
+    let response = await getUsers('api/complaints');
+    let userDetails = JSON.parse(localStorage.getItem("adminAuth"))
+    let userId = userDetails ? userDetails._id : "not found"
+    let emp = response.data.filter((item) => item.userId === userId)
 
     setUsers(emp);
     setSearchUsers(emp);
-    console.log(emp);
+    console.log(userId,response.data,emp);
   }
   const onsearch = (e) => {
     setSearchingText(e.target.value);
@@ -90,17 +92,17 @@ const AllUsers = () => {
         </Grid>
 
       </Grid>
+
       <StyledTable>
 
         <TableHead>
           <THead>
             <TableCell>Id</TableCell>
-            <TableCell>Name</TableCell>   
-            <TableCell>Email</TableCell>
-            <TableCell>Role</TableCell>
+            <TableCell>Title</TableCell>
+            <TableCell>Body</TableCell>
+            <TableCell>Response</TableCell>
 
             
-            <TableCell></TableCell>
             <TableCell></TableCell>
           </THead>
         </TableHead>
@@ -110,13 +112,11 @@ const AllUsers = () => {
           {searchUsers.map((user,i) => (
             <TRow key={user._id}>
               <TableCell>{i+1}</TableCell> 
-              <TableCell>{user.name}</TableCell>
-              <TableCell>{user.email}</TableCell>
-              <TableCell>{user.userrole}</TableCell>
-              <TableCell>
-                <Button color="primary" variant="contained" style={{ marginRight: 10 }} component={Link} to={`edit/${user._id}`}>EDIT</Button> 
-                <Button sx={{ backgroundColor: "#B33A3A" }} color="secondary" variant="contained" onClick={() => deleteUserData('api/users/'+user._id)}>Delete</Button>
-              </TableCell>
+              <TableCell>{user.title}</TableCell>
+              <TableCell>{user.body}</TableCell>
+              <TableCell>{user.adminResponse}</TableCell>
+              
+              
             </TRow>
           ))}
         </TableBody>

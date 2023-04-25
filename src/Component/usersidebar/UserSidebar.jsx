@@ -17,6 +17,12 @@ import { useContext } from "react";
 
 const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
+  const logout = ()=>{
+    console.log("log");
+    localStorage.clear();
+    window.location.href ='/'
+  }
+
   return (
     <div className="sidebar">
       <div className="top">
@@ -41,13 +47,19 @@ const Sidebar = () => {
               <span>Profile</span>
             </li>
           </Link>
-          <Link to="/employeecomplainequest" style={{ textDecoration: "none" }}>
+          <Link to="/usercomplainequest" style={{ textDecoration: "none" }}>
             <li>
               <StoreIcon className="icon" />
-              <span>Complaints</span>
+              <span>Old Complaints</span>
             </li>
           </Link>
-          <Link to="/seatbooking" style={{ textDecoration: "none" }}>
+          <Link to="/complainequest" style={{ textDecoration: "none" }}>
+            <li>
+              <StoreIcon className="icon" />
+              <span>New Complaints</span>
+            </li>
+          </Link>
+          <Link to="/reservation" style={{ textDecoration: "none" }}>
             <li>
               <StoreIcon className="icon" />
               <span>Seat Booking</span>
@@ -79,35 +91,14 @@ const Sidebar = () => {
             <SettingsSystemDaydreamOutlinedIcon className="icon" />
             <span>System Health</span>
           </li> */}
-          <li>
-            <PsychologyOutlinedIcon className="icon" />
-            <span>Logs</span>
-          </li>
-          <li>
-            <SettingsApplicationsIcon className="icon" />
-            <span>Settings</span>
-          </li>
-          <p className="title">USER</p>
-          <li>
-            <AccountCircleOutlinedIcon className="icon" />
-            <span>Profile</span>
-          </li>
-          <li>
+          
+          <li onClick={logout} >
             <ExitToAppIcon className="icon" />
             <span>Logout</span>
           </li>
         </ul>
       </div>
-      <div className="bottom">
-        <div
-          className="colorOption"
-          onClick={() => dispatch({ type: "LIGHT" })}
-        ></div>
-        <div
-          className="colorOption"
-          onClick={() => dispatch({ type: "DARK" })}
-        ></div>
-      </div>
+      
     </div>
   );
 };

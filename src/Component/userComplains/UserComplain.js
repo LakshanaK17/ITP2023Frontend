@@ -9,11 +9,11 @@ import {
   Typography,
   Grid,
 } from "@mui/material";
-import { addUser, getUsers } from "../Service/api";
+import { addUser, getUsers } from "../../Service/api";
 import { useNavigate } from "react-router-dom";
 
-import Controls from "../Component/controls/Controls";
-import { useForm, Form } from "../Component/useForm";
+import Controls from "../controls/Controls";
+import { useForm, Form } from "../useForm";
 import { useEffect } from "react";
 const initialValue = {
   name: "",
@@ -92,7 +92,7 @@ const Addcomplain = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (true) {
-      addUserDetails();
+      addUserComplain();
     }
   };
 
@@ -115,77 +115,21 @@ const Addcomplain = () => {
     await addUser("api/complaints", values);
     navigate("/usercomplainequest");
   };
-  useEffect(() => {
-    loadUserDetails();
-  }, []);
-  const loadUserDetails = async () => {
-    const response = await getUsers("api/users/all");
-    if (response.data) {
-      let emp = response.data.filter((item) => item.userrole === "EMPLOYEE");
-      console.log(response, emp);
-      setDriverOpt(emp);
+  const addUserComplain = async () => {
+    let userDetails = JSON.parse(localStorage.getItem("adminAuth"))
+    let userId =userDetails ? userDetails._id:"not found"
+    let data ={
+        "title":values.title,
+        "body":values.body,
+        "adminResponse":"",
+        "userId":userId
     }
-  };
-  const dd = [
-    {
-      _id: "64465f22b119ab02d4ac4eb7",
-      name: "abc",
-      userrole: "EMPLOYEE",
-      email: "abc@gnam.cid",
-      password: "$2a$10$7cJbYMzRSeZzTJXiWlKtBOlnBsSUArHzDyyvbe12mfu3fBrdvAPya",
-      accessType: "PENDING",
-      createdAt: "2023-04-24T10:51:14.415Z",
-      updatedAt: "2023-04-24T10:51:14.415Z",
-      __v: 0,
-    },
-    {
-      _id: "64465f35b119ab02d4ac4eba",
-      name: "cdddde",
-      userrole: "EMPLOYEE",
-      email: "defe",
-      password: "$2a$10$gAXjEf8Sl7mqg1hDBQ9BNu5Iq1JFIl0gwBl1bUVpQ/X5MS82.Mb0i",
-      accessType: "PENDING",
-      createdAt: "2023-04-24T10:51:33.942Z",
-      updatedAt: "2023-04-24T10:51:33.942Z",
-      __v: 0,
-    },
-    {
-      _id: "644668836193c6518a3ced01",
-      name: "rushanth",
-      userrole: "EMPLOYEE",
-      email: "B1@B.com",
-      password: "$2a$10$wc0a8Jq9Qll9rk/PFzw4juGmKpUj9.i1SnKtW.70JVyDLgQL1czjK",
-      accessType: "Pending",
-      createdAt: "2023-04-24T11:31:15.394Z",
-      updatedAt: "2023-04-24T11:31:15.394Z",
-      __v: 0,
-    },
-    {
-      _id: "6446abfd41f90ca1fe42f7f9",
-      name: "asdfgh",
-      userrole: "EMPLOYEE",
-      email: "lakshana@gmail.com",
-      password: "$2a$10$J4htpcsVecyJSPm8eqLsY.vvGCZHa2oVfHE8Xg4kHDHsmkYI8YEN6",
-      accessType: "PENDING",
-      createdAt: "2023-04-24T16:19:09.961Z",
-      updatedAt: "2023-04-24T16:19:09.961Z",
-      __v: 0,
-    },
-  ];
-  const VType = [
-    {
-      _id: "CAR",
-      email: "CAR",
-    },
-    {
-      _id: "VAN",
-      email: "VAN",
-    },
-    {
-      _id: "BUS",
-      email: "BUS",
-    },
-  ];
+    console.log(userDetails,data);
+    await addUser('api/complaints', data);
+    navigate('/usercomplainequest');
+}
+
+ 
   return (
     <Container>
       <Typography variant="h4">COMPLAINT REQUEST</Typography>
@@ -208,13 +152,7 @@ const Addcomplain = () => {
               onChange={handleInputChange}
               error={errors.body}
             />
-            <Controls.Input
-              name="adminResponse"
-              label="Admin Response"
-              value={values.adminResponse}
-              onChange={handleInputChange}
-              error={errors.adminResponse}
-            />
+            
 
             {/* <Controls.Input
                             name="driverName"

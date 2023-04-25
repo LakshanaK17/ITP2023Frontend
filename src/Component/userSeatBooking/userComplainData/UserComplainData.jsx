@@ -1,8 +1,8 @@
 import react, { useState, useEffect } from 'react';
 import { Table, TableHead, TableCell, Paper, TableRow, TableBody, Button, styled, Grid } from '@mui/material'
-import { getUsers, deleteUser } from '../../Service/api';
+import { getUsers, deleteUser } from '../../../Service/api';
 import { Link } from 'react-router-dom';
-import Input from '../controls/Input';
+import Input from '../../controls/Input';
 
 const StyledTable = styled(Table)`
     width: 90%;
@@ -33,17 +33,19 @@ const AllUsers = () => {
   }, []);
 
   const deleteUserData = async (id) => {
-    await deleteUser(id);
+    await deleteUser('api/reservation/'+id);
     getAllUsers();
   }
 
   const getAllUsers = async () => {
-    let response = await getUsers('api/users/all');
-    let emp = response.data.filter((item) => item.userrole === "EMPLOYEE");
+    let response = await getUsers('api/reservation');
+    let userDetails = JSON.parse(localStorage.getItem("adminAuth"))
+    let userId = userDetails ? userDetails._id : "not found"
+    let emp = response.data
 
     setUsers(emp);
     setSearchUsers(emp);
-    console.log(emp);
+    console.log(userId, response.data, emp);
   }
   const onsearch = (e) => {
     setSearchingText(e.target.value);
@@ -90,32 +92,36 @@ const AllUsers = () => {
         </Grid>
 
       </Grid>
+      <Button color="primary" variant="contained" style={{ marginRight: 10 }} component={Link} to={`add`}>ADD</Button> {/* change it to user.id to use JSON Server */}
+
       <StyledTable>
 
         <TableHead>
           <THead>
             <TableCell>Id</TableCell>
-            <TableCell>Name</TableCell>   
-            <TableCell>Email</TableCell>
-            <TableCell>Role</TableCell>
-
-            
+            <TableCell>Date</TableCell>
+            <TableCell>Time</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell>Phone</TableCell>
+            <TableCell>User Name</TableCell>
+            <TableCell>Transport Type</TableCell>
             <TableCell></TableCell>
             <TableCell></TableCell>
           </THead>
         </TableHead>
-
         <TableBody>
-        
-          {searchUsers.map((user,i) => (
-            <TRow key={user._id}>
-              <TableCell>{i+1}</TableCell> 
+          {searchUsers.map((user) => (
+            <TRow key={user.id}>
+              <TableCell>{user._id}</TableCell> {/* change it to user.id to use JSON Server */}
+              <TableCell>{user.date}</TableCell>
+              <TableCell>{user.time}</TableCell>
               <TableCell>{user.name}</TableCell>
-              <TableCell>{user.email}</TableCell>
-              <TableCell>{user.userrole}</TableCell>
+              <TableCell>{user.phone}</TableCell>
+              <TableCell>{user.seatsCount}</TableCell>
+              <TableCell>{user.username}</TableCell>
               <TableCell>
-                <Button color="primary" variant="contained" style={{ marginRight: 10 }} component={Link} to={`edit/${user._id}`}>EDIT</Button> 
-                <Button sx={{ backgroundColor: "#B33A3A" }} color="secondary" variant="contained" onClick={() => deleteUserData('api/users/'+user._id)}>Delete</Button>
+                <Button color="primary" variant="contained" style={{ marginRight: 10 }} component={Link} to={`edit/${user._id}`}>Edit</Button> {/* change it to user.id to use JSON Server */}
+                <Button sx={{ backgroundColor: "#B33A3A" }} color="secondary" variant="contained" onClick={() => deleteUserData(user._id)}>Delete</Button> {/* change it to user.id to use JSON Server */}
               </TableCell>
             </TRow>
           ))}

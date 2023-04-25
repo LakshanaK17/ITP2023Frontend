@@ -92,7 +92,7 @@ const AllUsers = () => {
  <Grid item xs={6}>
         </Grid>
         <Grid item xs={6}>
-          <Button color="primary" variant="contained" style={{ marginRight: 10 }} component={Link} to={`add`}>Add Schedule</Button>
+          <Button color="primary" variant="contained" style={{ marginRight: 10 }} component={Link} to={`add`}>Add Vehicle</Button>
 
         </Grid>
       <StyledTable>
