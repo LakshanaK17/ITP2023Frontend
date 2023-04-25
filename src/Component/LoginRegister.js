@@ -9,6 +9,7 @@ import {
   useNavigate,
   Link,
 } from "react-router-dom";
+import Controls from "../Component/controls/Controls";
 
 function LoginRegister() {
   const [signIn, toggle] = React.useState(false);
@@ -16,10 +17,12 @@ function LoginRegister() {
     sname: "",
     semail: "",
     spassword: "",
+    userrole: "",
   };
   const stateValues2 = {
     remail: "",
     rpassword: "",
+    userrole: "",
   };
   const [values1, setValues1] = React.useState(stateValues1);
   const [values2, setValues2] = React.useState(stateValues2);
@@ -46,7 +49,6 @@ function LoginRegister() {
       name: values1.sname,
       email: values1.semail,
       password: values1.spassword,
-      userrole: "USER",
       accessType: "PENDING",
     };
     axios
@@ -57,7 +59,7 @@ function LoginRegister() {
 
         localStorage.setItem("adminAuth", JSON.stringify(res.data));
         if (res.data.userrole) {
-          localStorage.setItem("role", JSON.stringify(res.data.userrole));
+          localStorage.setItem("role", res.data.userrole);
           if (res.data.userrole === "ADMIN") {
             window.location.href = "/admin";
           } else if (res.data.userrole === "EMPLOYEE") {
@@ -75,7 +77,7 @@ function LoginRegister() {
     var data = {
       email: values2.remail,
       password: values2.rpassword,
-      userrole: "USER",
+      userrole: values2.userrole,
       accessType: "PENDING",
     };
     axios
@@ -98,6 +100,14 @@ function LoginRegister() {
       })
       .catch((error) => {});
   };
+  const userItems = [
+    { id: "USER", title: "USER" },
+    { id: "EMPLOYEE", title: "EMPLOYEE" },
+  ];
+  const userItems2 = [
+    { id: "EMPLOYEE", title: "EMPLOYEE" },
+    { id: "USER", title: "USER" },
+  ];
   return (
     <Components.Container>
       <Components.SignUpContainer signinIn={signIn}>
@@ -124,6 +134,13 @@ function LoginRegister() {
             onChange={handleInputChange}
             value={values1.spassword}
           />
+          <Controls.RadioGroup
+            name="userrole"
+            label=""
+            value={values1.userrole}
+            onChange={handleInputChange}
+            items={userItems}
+          />
           <Components.Button type="submit" onClick={signUpSubmit}>
             Sign Up
           </Components.Button>
@@ -147,6 +164,7 @@ function LoginRegister() {
             onChange={handleInputChange2}
             value={values2.rpassword}
           />
+
           <Components.Anchor href="#">Forgot your password?</Components.Anchor>
           <Components.Button onClick={signInSubmit}>Sigin In</Components.Button>
         </Components.Form>
