@@ -3,6 +3,7 @@ import AddUser from "./Component/AddUser";
 import EditUser from "./Component/EditUser";
 import NavBar from "./Component/NavBar";
 import NotFound from "./Component/NotFound";
+import { productInputs, userInputs } from "./formSource";
 import CodeForInterview from "./Component/CodeForInterview";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import NewUser from "./Component/newUser/NewUser";
@@ -14,23 +15,33 @@ import Employee from "./Component/Employee";
 import UserPage from "./Component/UserPage";
 import AdminPage from "./Component/AdminPage";
 import LoginPage from "./Component/LoginPage";
+import AddUsers from "./Component/AddUsers";
+import EmployeeDetails from "./Component/EmployeeDetails";
+import UserComplain from "./Component/UserComplain";
+import List from "./Component/list/List";
+import Home from "./Component/home/Home";
+import Vehicle from "./Component/vehicle/Vehicle";
+import Single from "./Component/employeesingle/Single";
+import New from "./Component/new/New";
+import Usercomplain from "./Component/usercomplain/Usercomplain";
+import EmployeeLeaves from "./Component/employeeleave/EmployeeLeave";
 // import "../src/styles.css";
 
 function App() {
   // const navigate = useNavigate();
   const [userType, setUserType] = useState("ALL");
-const Roles =localStorage.getItem("role")
+  const Roles = localStorage.getItem("role");
   const handleLogin = (userType) => {
     setUserType(userType);
     // navigate(userType === "admin" ? "/admin" : "/user");
   };
   useEffect(async () => {
-    console.log(localStorage.getItem("role") !=null,"role");
-    if (localStorage.getItem("role")==null ) {
+    console.log(localStorage.getItem("role") != null, "role");
+    if (localStorage.getItem("role") == null) {
       setUserType("All");
     }
 
-    if (localStorage.getItem("role")!=null ) {
+    if (localStorage.getItem("role") != null) {
       if (localStorage.getItem("role") === "ADMIN") {
         setUserType("ADMIN");
       } else if (localStorage.getItem("role") === "EMPLOYEE") {
@@ -47,47 +58,81 @@ const Roles =localStorage.getItem("role")
       {...rest}
       exact={true}
       path="/admin"
-    // element={userType === "admin" ? <Login /> : <Login />}
+      // element={userType === "admin" ? <Login /> : <Login />}
     />
   );
 
-
-
   const AdminRoutes = [
     {
-      path: "/",
-      component: <AdminPage />,
+      path: "/dashboard",
+      component: <Home />,
       exact: true,
     },
     {
       path: "/admin",
-      component: <AdminPage />,
+      component: <Home />,
       exact: true,
-    }
+    },
+    {
+      path: ":employeeId",
+      component: <Single />,
+      exact: true,
+    },
+
+    {
+      path: "/employees",
+      component: <List />,
+      exact: true,
+    },
+    {
+      path: "/vehicles",
+      component: <Vehicle />,
+      exact: true,
+    },
+    {
+      path: ":vehicleId",
+      component: <Single />,
+      exact: true,
+    },
+    {
+      path: "complains",
+      component: <Usercomplain />,
+      exact: true,
+    },
+    {
+      path: "leaves",
+      component: <EmployeeLeaves />,
+      exact: true,
+    },
+    {
+      path: "new",
+      component: <New inputs={userInputs} title="Add New User" />,
+      exact: true,
+    },
   ];
   const UserRoutes = [
     {
       path: "/",
-      component: <CodeForInterview />,
+      component: <UserComplain />,
       exact: true,
     },
     {
-      path: "/admin",
-      component: <CodeForInterview />,
+      path: "/user",
+      component: <UserComplain />,
       exact: true,
-    }
+    },
   ];
   const EmployeeRoutes = [
     {
       path: "/",
-      component: <Employee />,
+      component: <EmployeeLeave />,
       exact: true,
     },
     {
       path: "/employee",
-      component: <Employee />,
+      component: <List />,
       exact: true,
-    }
+    },
   ];
   const All = [
     {
@@ -101,6 +146,7 @@ const Roles =localStorage.getItem("role")
       exact: true,
     },
   ];
+
   const AdminRouting = (route, index) => {
     console.log("jij");
     return (
@@ -137,7 +183,7 @@ const Roles =localStorage.getItem("role")
           )}
         </ul>
       </NavBar>
-      userType  {userType}
+      userType {userType}
       <Routes>
         {/* <Route
        path="/"
@@ -146,17 +192,13 @@ const Roles =localStorage.getItem("role")
         {/* {  AdminRoutes.map((route, index) => AdminRouting(route, index))} */}
 
         {userType === "ADMIN" &&
-          AdminRoutes.map((route, index) => AdminRouting(route, index))
-        }
+          AdminRoutes.map((route, index) => AdminRouting(route, index))}
         {userType === "EMPLOYEE" &&
-          EmployeeRoutes.map((route, index) => AdminRouting(route, index))
-        }
+          EmployeeRoutes.map((route, index) => AdminRouting(route, index))}
         {userType === "USER" &&
-          UserRoutes.map((route, index) => AdminRouting(route, index))
-        }
+          UserRoutes.map((route, index) => AdminRouting(route, index))}
         {userType === "ALL" &&
-          All.map((route, index) => AdminRouting(route, index))
-        }
+          All.map((route, index) => AdminRouting(route, index))}
         {/* <Route path="/" element={<LoginPage />} />
         <Route path="/signup" element={<NewUser />} />
         <Route path="/login" element={<Login />} />
@@ -179,6 +221,14 @@ const Roles =localStorage.getItem("role")
         {/* <Route  path="/admin" element={<AdminPage />} /> */}
         {/* <Route path="/loginpage" element={<LoginPage />} /> */}
         {/* <Route path="/newuser" element={<CodeForInterview />} /> */}
+        <Route path="users">
+          <Route index element={<List />} />
+          <Route path=":userId" element={<List />} />
+          {/* <Route
+            path="new"
+            element={<New inputs={userInputs} title="Add New User" />}
+          /> */}
+        </Route>
       </Routes>
     </BrowserRouter>
     // </UserContext.Provider>

@@ -15,11 +15,11 @@ function LoginRegister() {
   const stateValues1 = {
     sname: "",
     semail: "",
-    spassword: ""
+    spassword: "",
   };
   const stateValues2 = {
     remail: "",
-    rpassword: ""
+    rpassword: "",
   };
   const [values1, setValues1] = React.useState(stateValues1);
   const [values2, setValues2] = React.useState(stateValues2);
@@ -40,15 +40,15 @@ function LoginRegister() {
   console.log(values1);
 
   const signUpSubmit = (e) => {
-    e.preventDefault()
-    console.log(values1)
+    e.preventDefault();
+    console.log(values1);
     var data = {
-      "name": values1.sname,
-      "email": values1.semail,
-      "password": values1.spassword,
-      "userrole": "USER",
-      "accessType": "PENDING"
-    }
+      name: values1.sname,
+      email: values1.semail,
+      password: values1.spassword,
+      userrole: "ADMIN",
+      accessType: "PENDING",
+    };
     axios
       .post("/api/users/", data)
       .then((res) => {
@@ -58,28 +58,26 @@ function LoginRegister() {
         localStorage.setItem("adminAuth", JSON.stringify(res.data));
         if (res.data.userrole) {
           localStorage.setItem("role", JSON.stringify(res.data.userrole));
-          if (res.data.userrole === 'ADMIN') {
+          if (res.data.userrole === "ADMIN") {
             window.location.href = "/admin";
-          } else if (res.data.userrole === 'EMPLOYEE') {
+          } else if (res.data.userrole === "EMPLOYEE") {
             window.location.href = "/employee";
-          } else if (res.data.userrole === 'USER') {
+          } else if (res.data.userrole === "USER") {
             window.location.href = "/user";
           }
         }
       })
-      .catch((error) => {
-
-      });
-  }
+      .catch((error) => {});
+  };
   const signInSubmit = (e) => {
-    e.preventDefault()
-    console.log(values2)
+    e.preventDefault();
+    console.log(values2);
     var data = {
-      "email": values2.remail,
-      "password": values2.rpassword,
-      "userrole": "EMPLOYEE",
-      "accessType": "PENDING"
-    }
+      email: values2.remail,
+      password: values2.rpassword,
+      userrole: "ADMIN",
+      accessType: "PENDING",
+    };
     axios
       .post("/api/users/login", data)
       .then((res) => {
@@ -88,42 +86,67 @@ function LoginRegister() {
         if (res.data.userrole) {
           console.log(JSON.stringify(res.data.userrole));
 
-          localStorage.setItem("role", res.data.userrole)
-          if (res.data.userrole === 'ADMIN') {
+          localStorage.setItem("role", res.data.userrole);
+          if (res.data.userrole === "ADMIN") {
             window.location.href = "/admin";
-          } else if (res.data.userrole === 'EMPLOYEE') {
+          } else if (res.data.userrole === "EMPLOYEE") {
             window.location.href = "/employee";
-          } else if (res.data.userrole === 'USER') {
+          } else if (res.data.userrole === "USER") {
             window.location.href = "/user";
           }
         }
       })
-      .catch((error) => {
-
-      });
-  }
+      .catch((error) => {});
+  };
   return (
     <Components.Container>
       <Components.SignUpContainer signinIn={signIn}>
         <Components.Form>
           <Components.Title>Create Account</Components.Title>
-          <Components.Input type="text" placeholder="Name" name="sname" onChange={handleInputChange}
-            value={values1.sname} />
-          <Components.Input type="email" placeholder="Email" name="semail" onChange={handleInputChange}
-            value={values1.semail} />
-          <Components.Input type="password" placeholder="Password" name="spassword" onChange={handleInputChange}
-            value={values1.spassword} />
-          <Components.Button type="submit" onClick={signUpSubmit}  >Sign Up</Components.Button>
+          <Components.Input
+            type="text"
+            placeholder="Name"
+            name="sname"
+            onChange={handleInputChange}
+            value={values1.sname}
+          />
+          <Components.Input
+            type="email"
+            placeholder="Email"
+            name="semail"
+            onChange={handleInputChange}
+            value={values1.semail}
+          />
+          <Components.Input
+            type="password"
+            placeholder="Password"
+            name="spassword"
+            onChange={handleInputChange}
+            value={values1.spassword}
+          />
+          <Components.Button type="submit" onClick={signUpSubmit}>
+            Sign Up
+          </Components.Button>
         </Components.Form>
       </Components.SignUpContainer>
 
       <Components.SignInContainer signinIn={signIn}>
         <Components.Form>
           <Components.Title>Sign in</Components.Title>
-          <Components.Input type="email" placeholder="Email" name="remail" onChange={handleInputChange2}
-            value={values2.remail} />
-          <Components.Input type="password" placeholder="Password" name="rpassword" onChange={handleInputChange2}
-            value={values2.rpassword} />
+          <Components.Input
+            type="email"
+            placeholder="Email"
+            name="remail"
+            onChange={handleInputChange2}
+            value={values2.remail}
+          />
+          <Components.Input
+            type="password"
+            placeholder="Password"
+            name="rpassword"
+            onChange={handleInputChange2}
+            value={values2.rpassword}
+          />
           <Components.Anchor href="#">Forgot your password?</Components.Anchor>
           <Components.Button onClick={signInSubmit}>Sigin In</Components.Button>
         </Components.Form>

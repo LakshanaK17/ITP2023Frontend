@@ -1,10 +1,23 @@
 import styled from "styled-components";
 // import { mobile } from "../responsive";
 import { useNavigate } from 'react-router-dom';
-import { FormGroup, FormControl, InputLabel,   Typography, Grid } from '@mui/material';
+import { FormGroup, FormControl, InputLabel, Select, MenuItem,  Typography, Grid } from '@mui/material';
 import react, { useState } from 'react';
 import { useForm, Form } from '../useForm';
 import Controls from "../controls/Controls";
+import Checkbox from "../controls/Checkbox";
+
+import {
+  Paper,
+
+ 
+ 
+  TextField,
+ 
+
+  Card,
+} from "@mui/material";
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 const Container = styled.div`
   width: 100vw;
@@ -67,7 +80,18 @@ const initialValue = {
   username: ""
 }
 
-const Register = () => {
+const EmployeeLeave = () => {
+  const [selectedItem, setSelectedItem] = useState('');
+
+  const handleSelectChange = (event) => {
+    setSelectedItem(event.target.value);
+  };
+
+  const [checked, setChecked] = useState(true);
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+  };
+  
   const [user, setUser] = useState(initialValue);
   // const [userErr, setUserErr] = useState(initialValueErr);
   // const [userErrMsg, setUserErrMsg] = useState(initialValueErrMsg);
@@ -118,12 +142,24 @@ const Register = () => {
           
       }
   }
+  const Container = styled(FormGroup)`
+    width: 50%;
+    margin: 5% 0 0 25%;
+    & > div {
+        margin-top: 20px;
+`;
 
-
+const [request, setRequest] = useState({
+  leaveTitle: '',
+  type: '',
+  status: '',
+  message: '',
+});
   const {
       date,
       time,
       name,
+      message,
       phone,
       seatsCount,
       username } = user;
@@ -144,43 +180,211 @@ const Register = () => {
       // await addUser(values);
       navigate('/login');
   }
+  const [quantity, setQuantity] = useState(1);
+
+  const handleQuantityChange = (event) => {
+    setQuantity(event.target.value);
+  };
+  const handleIncreaseQuantity = () => {
+    setQuantity(quantity + 1);
+  };
+  const handleAddToCart = () => {
+    // add product with selected quantity to cart
+    console.log(`Added ${quantity} to cart`);
+  };
+
   return (
     <Container>
       <Wrapper>
         <Title>LEAVE REQUEST</Title>
-        <Form onSubmit={handleSubmit}>
+        <form
+        // onSubmit={handleSubmit(onSubmit)}
+        item
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        autoComplete="on"
+      >
+        {/* <Form onSubmit={handleSubmit}> */}
         <Grid container>
+        <Card
+            sx={{
+              paddingY: 5,
+              paddingX: 3,
+              borderRadius: 5,
+              mt: 8,
+
+              minWidth: 340,
+            }}
+          >
           <Controls.Input placeholder="Subject" label='Subject'name="title"
                             
-                            value={values.title}
+                            value={values.leaveTitle}
                             onChange={handleInputChange}
-                            error={errors.title} />
-          <Controls.Input placeholder="Leave Type"label='Leave Type'name="leaveType"
+                            error={errors.leaveTitle} />
+          {/* <Controls.Input placeholder="Leave Type"label='Leave Type'name="leaveType"
                             
                             value={values.lastName}
                             onChange={handleInputChange}
-                            error={errors.lastName}/>
-          <Controls.Input placeholder="Message" label='Message' name="message"
+                            error={errors.lastName}/> */}
+                            {/* <label>
+                            Leave Type 
+        <select value={selectedItem} onChange={handleSelectChange}>
+          <option value="">None</option>
+          <option value="item1">Casual Leave</option>
+          <option value="item2">Annual Leave</option>
+          <option value="item3">Sick Leave</option>
+        </select>
+      </label> */}
+      <div>
+      <InputLabel id="leave-type-label">Leave Type</InputLabel>
+     <FormControl>
+    
+       <Select
+         labelId="leave-type-label"
+         id="leave-type-select"
+         value={selectedItem}
+         onChange={handleSelectChange}
+         fullWidth
+       >
+         <MenuItem value="">
+           <em>None</em>
+         </MenuItem>
+         <MenuItem value="item1">Casual Leave</MenuItem>
+         <MenuItem value="item2">Annual Leave</MenuItem>
+         <MenuItem value="item3">Sick Leave</MenuItem>
+       </Select>
+     </FormControl>
+     </div>
+      {/* <p> {selectedItem}</p> */}
+      <FormControl>
+      <InputLabel htmlFor="number-of-days-input">Message</InputLabel>
+          <Controls.Input placeholder="Message"  name="message"
                             
-                            value={values.userName}
+                            value={values.leaveBody}
                             onChange={handleInputChange}
-                            error={errors.userName}/>
-          <Controls.Input placeholder="Number of Days" label='Number of Days' />
-          <Controls.Input placeholder="Subject" label='Subject'value={values.password}
-                            onChange={handleInputChange}
-                            error={errors.password}/>
-          <Controls.Input placeholder="confirm password" label="Confirm Password"/><br/>
-          <Agreement>
-            By creating an account, I consent to the processing of my personal
-            data in accordance with the <b>PRIVACY POLICY</b>
-          </Agreement>
-          <Button onClick={handleSubmit}>CREATE</Button>
+                            error={errors.leaveBody}/>
+          {/* <Controls.Input placeholder="Number of Days" label='Number of Days' /> */}
+          </FormControl>
+           <div>
+          {/* <label>
+          Number of Days
+        <input
+          type="number"
+          value={quantity}
+          min={1}
+          max={30}
+          onChange={handleQuantityChange}
+        />
+      </label>  */}
+       <InputLabel htmlFor="number-of-days-input">Number of Days</InputLabel>
+         <FormControl>
+      
+       <Input
+         id="number-of-days-input"
+         type="number"
+         value={quantity}
+         inputProps={{ min: 1, max: 30 }}
+         onChange={handleQuantityChange}
+         onClick={handleIncreaseQuantity}
+       />
+       {/* <Button variant="contained" onClick={handleIncreaseQuantity}>
+         +
+       </Button> */}
+     </FormControl>
+      {/* <button onClick={handleIncreaseQuantity}>+</button> */}
+      </div>
+
+      <br/>
+      <div style={{ marginTop: '30px', marginRight: '20px' }}>
+      {/* <button onClick={handleAddToCart}>Add to Cart</button> */}
+      <FormControlLabel control={<Checkbox checked={checked}
+      onChange={handleChange}/>} label="Confirm Request" />
+          </div>
+          {/* <Button  variant="contained"
+                type="submit"
+              onClick={handleSubmit}>SUBMIT</Button>
+          
+          <Button onClick={resetForm}>CANCEL</Button> */}
+        
+         <Button
+           variant="contained"
+           color="primary"
+           onClick={() => addUserDetails()}
+         >
+          SUBMIT
+         </Button>
+      
+        
+          
           {/* <Button onClick={resetForm}>RESET</Button> */}
+          </Card>
           </Grid>
-        </Form>
+        {/* </Form> */}
+        </form>
+        
       </Wrapper>
     </Container>
+    //  <Container>
+    //   <Typography variant="h4">LEAVE REQUEST</Typography>
+    //   <FormControl>
+    //     <InputLabel htmlFor="my-input">Subject</InputLabel>
+    //     <Input
+    //       onChange={(e) => onValueChange(e)}
+    //       name="name"
+    //       value={name}
+    //       id="my-input"
+    //     />
+    //   </FormControl>
+    //  <FormControl>
+    //   <InputLabel id="leave-type-label">Leave Type</InputLabel>
+    //   <Select
+    //     labelId="leave-type-label"
+    //     id="leave-type-select"
+    //     value={selectedItem}
+    //     onChange={handleSelectChange}
+    //   >
+    //     <MenuItem value="">
+    //       <em>None</em>
+    //     </MenuItem>
+    //     <MenuItem value="item1">Casual Leave</MenuItem>
+    //     <MenuItem value="item2">Annual Leave</MenuItem>
+    //     <MenuItem value="item3">Sick Leave</MenuItem>
+    //   </Select>
+    // </FormControl>
+    //   <FormControl>
+    //     <InputLabel htmlFor="my-input">Message</InputLabel>
+    //     <Input
+    //       onChange={(e) => onValueChange(e)}
+    //       name="message"
+    //       value={message}
+    //       id="my-input"
+    //     />
+    //   </FormControl>
+    //   <FormControl>
+    //   <InputLabel htmlFor="number-of-days-input">Number of Days</InputLabel>
+    //   <Input
+    //     id="number-of-days-input"
+    //     type="number"
+    //     value={quantity}
+    //     inputProps={{ min: 1, max: 30 }}
+    //     onChange={handleQuantityChange}
+    //   />
+    //   <Button variant="contained" onClick={handleIncreaseQuantity}>
+    //     +
+    //   </Button>
+    // </FormControl>
+    //   <FormControl>
+    //     <Button
+    //       variant="contained"
+    //       color="primary"
+    //       onClick={() => addUserDetails()}
+    //     >
+    //      SUBMIT
+    //     </Button>
+    //   </FormControl>
+    // </Container>
   );
 };
 
-export default Register;
+export default EmployeeLeave;
