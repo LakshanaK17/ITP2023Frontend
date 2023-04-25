@@ -235,7 +235,6 @@ function App() {
           )}
         </ul>
       </NavBar>
-      userType {userType}
       <Routes>
         {/* <Route
        path="/"

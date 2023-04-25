@@ -9,6 +9,8 @@ export const Container = styled.div`
   width: 678px;
   max-width: 100%;
   min-height: 400px;
+  margin:0 auto;
+  margin-top:120px;
 `;
 
 export const SignUpContainer = styled.div`
