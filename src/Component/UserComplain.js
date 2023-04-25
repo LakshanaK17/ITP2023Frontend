@@ -1,112 +1,80 @@
-import styled from "styled-components";
-// import { mobile } from "../responsive";
-import { useNavigate } from "react-router-dom";
+import react, { useState } from "react";
 import {
   FormGroup,
   FormControl,
   InputLabel,
+  Input,
+  Button,
+  styled,
   Typography,
   Grid,
 } from "@mui/material";
-import react, { useState } from "react";
-import { useForm, Form } from "./useForm";
+import { addUser, getUsers } from "../Service/api";
+import { useNavigate } from "react-router-dom";
+
 import Controls from "../Component/controls/Controls";
-import Checkbox from "../Component/controls/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
-
-const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(
-      rgba(255, 255, 255, 0.5),
-      rgba(255, 255, 255, 0.5)
-    ),
-    
-  background-size: cover;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Wrapper = styled.div`
-  width: 40%;
-  padding: 20px;
-  background-color: white;
-`;
-
-const Title = styled.h1`
-  font-size: 24px;
-  font-weight: 300;
-`;
-
-// const Form = styled.form`
-//   display: flex;
-//   flex-wrap: wrap;
-// `;
-
-const Input = styled.input`
-  flex: 1;
-  min-width: 40%;
-  margin: 20px 10px 0px 0px;
-  padding: 10px;
-`;
-
-const Agreement = styled.span`
-  font-size: 12px;
-  margin: 20px 0px;
-`;
-
-const Button = styled.button`
-  width: 40%;
-  border: none;
-  padding: 15px 20px;
-  background-color: teal;
-  color: white;
-  cursor: pointer;
-`;
-
+import { useForm, Form } from "../Component/useForm";
+import { useEffect } from "react";
 const initialValue = {
-  firstName: "",
-  lastName: "",
-
-  email: "",
-
+  name: "",
+  body: "",
+  adminResponse: "REJECTED",
+  driver: "",
+  driverName: "",
+};
+const initialValueErr = {
+  // date: false,
+  // time: false,
+  name: false,
+  body: false,
+  // phone: false,
+  // seatsCount: false,
+  username: false,
+  all: false,
+};
+const initialValueErrMsg = {
+  name: "",
+  body: "",
+  // date: "",
+  // time: "",
+  // name: "",
+  // phone: "",
+  // seatsCount: "",
   username: "",
+  all: "",
 };
 
-const UserComplain = () => {
-  const [selectedItem, setSelectedItem] = useState("");
+const Container = styled(FormGroup)`
+    width: 50%;
+    margin: 5% 0 0 25%;
+    & > div {
+        margin-top: 20px;
+`;
 
-  const handleSelectChange = (event) => {
-    setSelectedItem(event.target.value);
-  };
-
-  const [checked, setChecked] = useState(true);
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
-  };
-
+const Addcomplain = () => {
   const [user, setUser] = useState(initialValue);
+  const [DriverOpt, setDriverOpt] = useState(initialValue);
   // const [userErr, setUserErr] = useState(initialValueErr);
   // const [userErrMsg, setUserErrMsg] = useState(initialValueErrMsg);
 
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
-    if ("firstName" in fieldValues)
-      temp.firstName = fieldValues.firstName ? "" : "This field is required.";
+    // if ("date" in fieldValues)
+    //   temp.date = fieldValues.date ? "" : "This field is required.";
 
-    if ("lastName" in fieldValues) {
-      temp.lastName = fieldValues.lastName ? "" : "This field is required.";
+    if ("title" in fieldValues) {
+      temp.title = fieldValues.title ? "" : "This field is required.";
     }
-    if ("userName" in fieldValues) {
-      temp.userName = fieldValues.userName ? "" : "This field is required.";
+    if ("body" in fieldValues) {
+      temp.body = fieldValues.body ? "" : "This field is required.";
     }
-    if ("email" in fieldValues) {
-      temp.email = fieldValues.email ? "" : "This field is required.";
-    }
-    if ("password" in fieldValues) {
-      temp.password = fieldValues.password ? "" : "This field is required.";
-    }
+
+    // if ("time" in fieldValues)
+    //   temp.time = fieldValues.time ? "" : "This field is required.";
+    // if ("phone" in fieldValues)
+    //   temp.phone = fieldValues.phone ? "" : "This field is required.";
+    // if ("seatsCount" in fieldValues)
+    //   temp.seatsCount = fieldValues.seatsCount ? "" : "This field is required.";
 
     // if ('all' in fieldValues)
     //     temp.time = fieldValues.time ? "" : "This field is required."
@@ -123,12 +91,12 @@ const UserComplain = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validate()) {
+    if (true) {
       addUserDetails();
     }
   };
 
-  const { date, time, name, phone, seatsCount, username } = user;
+  const { title, body } = user;
 
   let navigate = useNavigate();
 
@@ -143,94 +111,149 @@ const UserComplain = () => {
   };
 
   const addUserDetails = async () => {
-    // await addUser(values);
-    navigate("/login");
+    console.log(values);
+    await addUser("api/complaints", values);
+    navigate("/usercomplainequest");
   };
-  const [quantity, setQuantity] = useState(1);
-
-  const handleQuantityChange = (event) => {
-    setQuantity(event.target.value);
+  useEffect(() => {
+    loadUserDetails();
+  }, []);
+  const loadUserDetails = async () => {
+    const response = await getUsers("api/users/all");
+    if (response.data) {
+      let emp = response.data.filter((item) => item.userrole === "EMPLOYEE");
+      console.log(response, emp);
+      setDriverOpt(emp);
+    }
   };
-  const handleIncreaseQuantity = () => {
-    setQuantity(quantity + 1);
-  };
-  const handleAddToCart = () => {
-    // add product with selected quantity to cart
-    console.log(`Added ${quantity} to cart`);
-  };
-
+  const dd = [
+    {
+      _id: "64465f22b119ab02d4ac4eb7",
+      name: "abc",
+      userrole: "EMPLOYEE",
+      email: "abc@gnam.cid",
+      password: "$2a$10$7cJbYMzRSeZzTJXiWlKtBOlnBsSUArHzDyyvbe12mfu3fBrdvAPya",
+      accessType: "PENDING",
+      createdAt: "2023-04-24T10:51:14.415Z",
+      updatedAt: "2023-04-24T10:51:14.415Z",
+      __v: 0,
+    },
+    {
+      _id: "64465f35b119ab02d4ac4eba",
+      name: "cdddde",
+      userrole: "EMPLOYEE",
+      email: "defe",
+      password: "$2a$10$gAXjEf8Sl7mqg1hDBQ9BNu5Iq1JFIl0gwBl1bUVpQ/X5MS82.Mb0i",
+      accessType: "PENDING",
+      createdAt: "2023-04-24T10:51:33.942Z",
+      updatedAt: "2023-04-24T10:51:33.942Z",
+      __v: 0,
+    },
+    {
+      _id: "644668836193c6518a3ced01",
+      name: "rushanth",
+      userrole: "EMPLOYEE",
+      email: "B1@B.com",
+      password: "$2a$10$wc0a8Jq9Qll9rk/PFzw4juGmKpUj9.i1SnKtW.70JVyDLgQL1czjK",
+      accessType: "Pending",
+      createdAt: "2023-04-24T11:31:15.394Z",
+      updatedAt: "2023-04-24T11:31:15.394Z",
+      __v: 0,
+    },
+    {
+      _id: "6446abfd41f90ca1fe42f7f9",
+      name: "asdfgh",
+      userrole: "EMPLOYEE",
+      email: "lakshana@gmail.com",
+      password: "$2a$10$J4htpcsVecyJSPm8eqLsY.vvGCZHa2oVfHE8Xg4kHDHsmkYI8YEN6",
+      accessType: "PENDING",
+      createdAt: "2023-04-24T16:19:09.961Z",
+      updatedAt: "2023-04-24T16:19:09.961Z",
+      __v: 0,
+    },
+  ];
+  const VType = [
+    {
+      _id: "CAR",
+      email: "CAR",
+    },
+    {
+      _id: "VAN",
+      email: "VAN",
+    },
+    {
+      _id: "BUS",
+      email: "BUS",
+    },
+  ];
   return (
     <Container>
-      <Wrapper>
-        <Title>COMPLAIN REQUEST</Title>
-        <Form onSubmit={handleSubmit}>
-          <Grid container>
+      <Typography variant="h4">COMPLAINT REQUEST</Typography>
+      <Form onSubmit={handleSubmit}>
+        <Grid container>
+          <Grid item xs={12}>
             <Controls.Input
-              placeholder="Subject"
-              label="Subject"
               name="title"
+              label="Title"
               value={values.title}
               onChange={handleInputChange}
               error={errors.title}
+              type="name"
             />
-            {/* <Controls.Input placeholder="Leave Type"label='Leave Type'name="leaveType"
-                            
-                            value={values.lastName}
-                            onChange={handleInputChange}
-                            error={errors.lastName}/> */}
-            {/* <label>
-                            Leave Type 
-        <select value={selectedItem} onChange={handleSelectChange}>
-          <option value="">None</option>
-          <option value="item1">Casual Leave</option>
-          <option value="item2">Annual Leave</option>
-          <option value="item3">Sick Leave</option>
-        </select>
-      </label> */}
-            {/* <p> {selectedItem}</p> */}
+
             <Controls.Input
-              placeholder="Message"
-              label="Message"
-              name="message"
-              value={values.userName}
+              name="body"
+              label="Body"
+              value={values.body}
               onChange={handleInputChange}
-              error={errors.userName}
+              error={errors.body}
             />
-            {/* <Controls.Input placeholder="Number of Days" label='Number of Days' /> */}
-            {/* <div>
-          <label>
-          Number of Days
-        <input
-          type="number"
-          value={quantity}
-          min={1}
-          max={30}
-          onChange={handleQuantityChange}
-        />
-      </label> 
-      <button onClick={handleIncreaseQuantity}>+</button>
-      </div> */}
+            <Controls.Input
+              name="adminResponse"
+              label="Admin Response"
+              value={values.adminResponse}
+              onChange={handleInputChange}
+              error={errors.adminResponse}
+            />
 
-            <br />
-            <div style={{ marginTop: "30px", marginRight: "20px" }}>
-              {/* <button onClick={handleAddToCart}>Add to Cart</button> */}
-              <FormControlLabel
-                control={<Checkbox checked={checked} onChange={handleChange} />}
-                label="Confirm Request"
-              />
-            </div>
-            <Button variant="contained" type="submit" onClick={handleSubmit}>
-              SUBMIT
-            </Button>
-
-            <Button onClick={resetForm}>CANCEL</Button>
-
-            {/* <Button onClick={resetForm}>RESET</Button> */}
+            {/* <Controls.Input
+                            name="driverName"
+                            label="driverName"
+                            value={values.driverName}
+                            onChange={handleInputChange}
+                            error={errors.driverName}
+                        /> */}
+            {/* <Controls.Select
+                            name="type"
+                            label="Type"
+                            value={values.type}
+                            onChange={handleInputChange}
+                            options={VType}
+                            error={errors.type}
+                        /> */}
+            {/* {DriverOpt && <Controls.Select
+                            name="driverName"
+                            label="Driver Name"
+                            value={values.driverName}
+                            onChange={handleInputChange}
+                            options={dd}
+                            error={errors.driverName}
+                        />} */}
           </Grid>
-        </Form>
-      </Wrapper>
+        </Grid>
+
+        <div>
+          <Controls.Button type="submit" text="Submit" />
+          <Controls.Button
+            text="Reset"
+            color=""
+            variant="outlined"
+            onClick={resetForm}
+          />
+        </div>
+      </Form>
     </Container>
   );
 };
 
-export default UserComplain;
+export default Addcomplain;

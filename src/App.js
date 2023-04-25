@@ -149,12 +149,12 @@ function App() {
       exact: true,
     },
     {
-      path: "/user",
-      component: <UserComplain />,
+      path: "/userhome",
+      component: <UserHome />,
       exact: true,
     },
     {
-      path: "/employeecomplainequest",
+      path: "/usercomplainequest/add",
       component: <UserComplain />,
       exact: true,
     },
@@ -171,7 +171,7 @@ function App() {
       exact: true,
     },
     {
-      path: "/employeeleaverequest",
+      path: "/employeeleaverequest/add",
       component: <EmployeeLeave />,
       exact: true,
     },
@@ -181,8 +181,8 @@ function App() {
       exact: true,
     },
     {
-      path: "/employee",
-      component: <List />,
+      path: "/",
+      component: <EmployeeHome />,
       exact: true,
     },
   ];

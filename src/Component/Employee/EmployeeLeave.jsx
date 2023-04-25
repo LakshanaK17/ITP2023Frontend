@@ -1,425 +1,270 @@
-import styled from "styled-components";
-// import { mobile } from "../responsive";
-import { useNavigate } from 'react-router-dom';
-import { FormGroup, FormControl, InputLabel, Select, MenuItem,  Typography, Grid } from '@mui/material';
 import react, { useState } from 'react';
+import { FormGroup, FormControl, InputLabel, Input, Button, styled, Typography, Grid } from '@mui/material';
+import { addUser, getUsers } from '../../Service/api';
+import { useNavigate } from 'react-router-dom';
+
+import Controls from "../../Component/controls/Controls";
 import { useForm, Form } from '../useForm';
-import Controls from "../controls/Controls";
-import Checkbox from "../controls/Checkbox";
-
-import {
-  Paper,
-
- 
- 
-  TextField,
- 
-
-  Card,
-} from "@mui/material";
-import FormControlLabel from '@mui/material/FormControlLabel';
-
-const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(
-      rgba(255, 255, 255, 0.5),
-      rgba(255, 255, 255, 0.5)
-    ),
-    
-  background-size: cover;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Wrapper = styled.div`
-  width: 40%;
-  padding: 20px;
-  background-color: white;
- 
-`;
-
-const Title = styled.h1`
-  font-size: 24px;
-  font-weight: 300;
-`;
-
-// const Form = styled.form`
-//   display: flex;
-//   flex-wrap: wrap;
-// `;
-
-const Input = styled.input`
-  flex: 1;
-  min-width: 40%;
-  margin: 20px 10px 0px 0px;
-  padding: 10px;
-`;
-
-const Agreement = styled.span`
-  font-size: 12px;
-  margin: 20px 0px;
-`;
-
-const Button = styled.button`
-  width: 40%;
-  border: none;
-  padding: 15px 20px;
-  background-color: teal;
-  color: white;
-  cursor: pointer;
-`;
-
+import { useEffect } from 'react';
 const initialValue = {
-  firstName: "",
-  lastName:'',
+    name: "",
+    body: '',
+    adminResponse: 'REJECTED',
+    // status: 'AVAILABLE',
+    // driver: "",
+    // driverName: ""
+}
+const initialValueErr = {
+  name: false,
+  body:false,
+    // date: false,
+    // time: false,
+    // name: false,
+    // phone: false,
+    // seatsCount: false,
+    username: false,
+    all: false,
 
-  email: '',
-
-  username: ""
+}
+const initialValueErrMsg = {
+   name: false,
+  body:false,
+    // date: "",
+    // time: '',
+    // name: '',
+    // phone: '',
+    // seatsCount: "",
+    username: "",
+    all: ""
 }
 
-const EmployeeLeave = () => {
-  const [selectedItem, setSelectedItem] = useState('');
 
-  const handleSelectChange = (event) => {
-    setSelectedItem(event.target.value);
-  };
-
-  const [checked, setChecked] = useState(true);
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
-  };
-  
-  const [user, setUser] = useState(initialValue);
-  // const [userErr, setUserErr] = useState(initialValueErr);
-  // const [userErrMsg, setUserErrMsg] = useState(initialValueErrMsg);
-
-  const validate = (fieldValues = values) => {
-      let temp = { ...errors }
-      if ('firstName' in fieldValues)
-          temp.firstName = fieldValues.firstName ? "" : "This field is required."
-
-      if ('lastName' in fieldValues) {
-          temp.lastName = fieldValues.lastName ? "" : "This field is required."
-      }
-      if ('userName' in fieldValues) {
-        temp.userName = fieldValues.userName ? "" : "This field is required."
-    }
-    if ('email' in fieldValues) {
-      temp.email = fieldValues.email ? "" : "This field is required."
-  }
-  if ('password' in fieldValues) {
-    temp.password = fieldValues.password ? "" : "This field is required."
-}
-
-      
-      // if ('all' in fieldValues)
-      //     temp.time = fieldValues.time ? "" : "This field is required."
-
-      setErrors({
-          ...temp
-      })
-
-      if (fieldValues == values)
-          return Object.values(temp).every(x => x == "")
-  }
-
-  const {
-      values,
-      setValues,
-      errors,
-      setErrors,
-      handleInputChange,
-      resetForm
-  } = useForm(initialValue, true, validate);
-
-  const handleSubmit = e => {
-      e.preventDefault()
-      if (validate()) {
-          addUserDetails()
-          
-      }
-  }
-  const Container = styled(FormGroup)`
+const Container = styled(FormGroup)`
     width: 50%;
     margin: 5% 0 0 25%;
     & > div {
         margin-top: 20px;
 `;
 
-// const [request, setRequest] = useState({
-//   leaveTitle: '',
-//   type: '',
-//   status: '',
-//   message: '',
-// });
-  const {
-      date,
-      time,
-      name,
-      message,
-      phone,
-      seatsCount,
-      username } = user;
+const Addleave = () => {
+    const [user, setUser] = useState(initialValue);
+    const [DriverOpt, setDriverOpt] = useState(initialValue);
+    // const [userErr, setUserErr] = useState(initialValueErr);
+    // const [userErrMsg, setUserErrMsg] = useState(initialValueErrMsg);
 
-  let navigate = useNavigate();
+    const validate = (fieldValues = values) => {
+        let temp = { ...errors }
+        if ("title" in fieldValues) {
+          temp.title = fieldValues.title ? "" : "This field is required.";
+        }
+        if ("body" in fieldValues) {
+          temp.body = fieldValues.body ? "" : "This field is required.";
+        }
 
-  const onValueChange = (e) => {
-      console.log(e.target.value, "e.target.value");
-      // if(e.target.value ===""){
-      //     setUserErr({...userErr,[e.target.name]:true})
-      //     setUserErrMsg({...userErr,[e.target.name]:'wrong'})
-      //     console.log("11",userErr);
-      // }
-      setUser({ ...user, [e.target.name]: e.target.value })
-  }
+        // if ('time' in fieldValues)
+        //     temp.time = fieldValues.time ? "" : "This field is required."
+        // if ('phone' in fieldValues)
+        //     temp.phone = fieldValues.phone ? "" : "This field is required."
+        // if ('seatsCount' in fieldValues)
+        //     temp.seatsCount = fieldValues.seatsCount ? "" : "This field is required."
 
-  const addUserDetails = async () => {
-      // await addUser(values);
-      navigate('/login');
-  }
-  const [quantity, setQuantity] = useState(1);
+        // // if ('all' in fieldValues)
+        //     temp.time = fieldValues.time ? "" : "This field is required."
 
-  const handleQuantityChange = (event) => {
-    setQuantity(event.target.value);
-  };
-  const handleIncreaseQuantity = () => {
-    setQuantity(quantity + 1);
-  };
-  const handleAddToCart = () => {
-    // add product with selected quantity to cart
-    console.log(`Added ${quantity} to cart`);
-  };
-const data1 = {
-  leaveTitle:"",
-  leaveBody: "",
+        setErrors({
+            ...temp
+        })
+
+        if (fieldValues == values)
+            return Object.values(temp).every(x => x == "")
+    }
+
+    const {
+        values,
+        setValues,
+        errors,
+        setErrors,
+        handleInputChange,
+        resetForm
+    } = useForm(initialValue, true, validate);
+
+    const handleSubmit = e => {
+        e.preventDefault()
+        if (true) {
+            addUserDetails()
+
+        }
+    }
+
+
+    const {
+        title,
+        body,
+        } = user;
+
+    let navigate = useNavigate();
+
+    const onValueChange = (e) => {
+        console.log(e.target.value, "e.target.value");
+        // if(e.target.value ===""){
+        //     setUserErr({...userErr,[e.target.name]:true})
+        //     setUserErrMsg({...userErr,[e.target.name]:'wrong'})
+        //     console.log("11",userErr);
+        // }
+        setUser({ ...user, [e.target.name]: e.target.value })
+    }
+
+    const addUserDetails = async () => {
+        console.log(values);
+        await addUser('api/leave', values);
+        navigate('/employeeleaverequest');
+    }
+    useEffect(() => {
+        loadUserDetails();
+    }, []);
+    const loadUserDetails = async () => {
+        const response = await getUsers('api/users/all');
+        if (response.data) {
+            let emp = response.data.filter((item) => item.userrole === 'EMPLOYEE')
+            console.log(response, emp);
+            setDriverOpt(emp)
+        }
+    }
+    const dd =[
+        {
+            "_id": "64465f22b119ab02d4ac4eb7",
+            "name": "abc",
+            "userrole": "EMPLOYEE",
+            "email": "abc@gnam.cid",
+            "password": "$2a$10$7cJbYMzRSeZzTJXiWlKtBOlnBsSUArHzDyyvbe12mfu3fBrdvAPya",
+            "accessType": "PENDING",
+            "createdAt": "2023-04-24T10:51:14.415Z",
+            "updatedAt": "2023-04-24T10:51:14.415Z",
+            "__v": 0
+        },
+        {
+            "_id": "64465f35b119ab02d4ac4eba",
+            "name": "cdddde",
+            "userrole": "EMPLOYEE",
+            "email": "defe",
+            "password": "$2a$10$gAXjEf8Sl7mqg1hDBQ9BNu5Iq1JFIl0gwBl1bUVpQ/X5MS82.Mb0i",
+            "accessType": "PENDING",
+            "createdAt": "2023-04-24T10:51:33.942Z",
+            "updatedAt": "2023-04-24T10:51:33.942Z",
+            "__v": 0
+        },
+        {
+            "_id": "644668836193c6518a3ced01",
+            "name": "rushanth",
+            "userrole": "EMPLOYEE",
+            "email": "B1@B.com",
+            "password": "$2a$10$wc0a8Jq9Qll9rk/PFzw4juGmKpUj9.i1SnKtW.70JVyDLgQL1czjK",
+            "accessType": "Pending",
+            "createdAt": "2023-04-24T11:31:15.394Z",
+            "updatedAt": "2023-04-24T11:31:15.394Z",
+            "__v": 0
+        },
+        {
+            "_id": "6446abfd41f90ca1fe42f7f9",
+            "name": "asdfgh",
+            "userrole": "EMPLOYEE",
+            "email": "lakshana@gmail.com",
+            "password": "$2a$10$J4htpcsVecyJSPm8eqLsY.vvGCZHa2oVfHE8Xg4kHDHsmkYI8YEN6",
+            "accessType": "PENDING",
+            "createdAt": "2023-04-24T16:19:09.961Z",
+            "updatedAt": "2023-04-24T16:19:09.961Z",
+            "__v": 0
+        }
+    ]
+    const VType =[
+        {
+            "_id": "CAR",
+            "email": "CAR",
+        },
+        {
+            "_id": "VAN",
+            "email": "VAN",
+        },
+        {
+            "_id": "BUS",
+            "email": "BUS",
+        }
+
+    ]
+    return (
+        <Container>
+
+            <Typography variant="h4">LEAVE REQUEST</Typography>
+            <Form onSubmit={handleSubmit}>
+                <Grid container>
+                    <Grid item xs={12}>
+                        <Controls.Input
+                            name="title"
+                            label="Title"
+                            value={values.title}
+                            onChange={handleInputChange}
+                            error={errors.title}
+                            type="name"
+                        />
+                        
+                       
+                        <Controls.Input
+                            name="body"
+                            label="Body"
+                            value={values.body}
+                            onChange={handleInputChange}
+                            error={errors.body}
+                        />
+                        <Controls.Input
+                            name="adminResponse"
+                            label="Admin Response"
+                            value={values.adminResponse}
+                            onChange={handleInputChange}
+                            error={errors.adminResponse}
+                        />
+
+                        {/* <Controls.Input
+                            name="driverName"
+                            label="driverName"
+                            value={values.driverName}
+                            onChange={handleInputChange}
+                            error={errors.driverName}
+                        /> */}
+                        {/* <Controls.Select
+                            name="type"
+                            label="Type"
+                            value={values.type}
+                            onChange={handleInputChange}
+                            options={VType}
+                            error={errors.type}
+                        /> */}
+                        {/* {DriverOpt && <Controls.Select
+                            name="driverName"
+                            label="Driver Name"
+                            value={values.driverName}
+                            onChange={handleInputChange}
+                            options={dd}
+                            error={errors.driverName}
+                        />} */}
+                    </Grid >
+                </Grid >
+
+                <div>
+                    <Controls.Button
+                        type="submit"
+                        text="Submit" />
+                    <Controls.Button
+                        text="Reset"
+                        color=""
+                        variant="outlined"
+                        onClick={resetForm} />
+                </div>
+
+            </Form>
+
+
+        </Container>
+    )
 }
-  // const [data, setData] = React.useState(data1);
-  // const OnSubmit = (e) => {
-  //   e.preventDefault();
-  //   console.log(values1);
-  //   var data = {
-  //     name: values1.sname,
-  //     email: values1.semail,
-  //     password: values1.spassword,
-  //     userrole: "EMPLOYEE",
-  //     accessType: "PENDING",
-  //   };
-  //   axios
-  //     .post("/api/users/", data)
-  //     .then((res) => {
-  //       // window.location.reload(false);
-  //       console.log(res);
 
-  //       localStorage.setItem("adminAuth", JSON.stringify(res.data));
-  //       if (res.data.userrole) {
-  //         localStorage.setItem("role", JSON.stringify(res.data.userrole));
-  //         if (res.data.userrole === "ADMIN") {
-  //           window.location.href = "/admin";
-  //         } else if (res.data.userrole === "EMPLOYEE") {
-  //           window.location.href = "/employee";
-  //         } else if (res.data.userrole === "USER") {
-  //           window.location.href = "/user";
-  //         }
-  //       }
-  //     })
-  //     .catch((error) => {});
-  // };
-
-  return (
-    <Container>
-      <Wrapper>
-        <Title>LEAVE REQUEST</Title>
-        <form
-        // onSubmit={handleSubmit(onSubmit)}
-        item
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-        autoComplete="on"
-      >
-        {/* <Form onSubmit={handleSubmit}> */}
-        <Grid container>
-        <Card
-            sx={{
-              paddingY: 5,
-              paddingX: 3,
-              borderRadius: 5,
-              mt: 8,
-
-              minWidth: 340,
-            }}
-          >
-          <Controls.Input placeholder="Subject" label='Subject'name="title"
-                            
-                            value={values.leaveTitle}
-                            onChange={handleInputChange}
-                            error={errors.leaveTitle} />
-          {/* <Controls.Input placeholder="Leave Type"label='Leave Type'name="leaveType"
-                            
-                            value={values.lastName}
-                            onChange={handleInputChange}
-                            error={errors.lastName}/> */}
-                            {/* <label>
-                            Leave Type 
-        <select value={selectedItem} onChange={handleSelectChange}>
-          <option value="">None</option>
-          <option value="item1">Casual Leave</option>
-          <option value="item2">Annual Leave</option>
-          <option value="item3">Sick Leave</option>
-        </select>
-      </label> */}
-      <div>
-      <InputLabel id="leave-type-label">Leave Type</InputLabel>
-     <FormControl>
-    
-       <Select
-         labelId="leave-type-label"
-         id="leave-type-select"
-         value={selectedItem}
-         onChange={handleSelectChange}
-         fullWidth
-       >
-         <MenuItem value="">
-           <em>None</em>
-         </MenuItem>
-         <MenuItem value="item1">Casual Leave</MenuItem>
-         <MenuItem value="item2">Annual Leave</MenuItem>
-         <MenuItem value="item3">Sick Leave</MenuItem>
-       </Select>
-     </FormControl>
-     </div>
-      {/* <p> {selectedItem}</p> */}
-      <FormControl>
-      <InputLabel htmlFor="number-of-days-input">Message</InputLabel>
-          <Controls.Input placeholder="Message"  name="message"
-                            
-                            value={values.leaveBody}
-                            onChange={handleInputChange}
-                            error={errors.leaveBody}/>
-          {/* <Controls.Input placeholder="Number of Days" label='Number of Days' /> */}
-          </FormControl>
-           <div>
-          {/* <label>
-          Number of Days
-        <input
-          type="number"
-          value={quantity}
-          min={1}
-          max={30}
-          onChange={handleQuantityChange}
-        />
-      </label>  */}
-       <InputLabel htmlFor="number-of-days-input">Number of Days</InputLabel>
-         <FormControl>
-      
-       <Input
-         id="number-of-days-input"
-         type="number"
-         value={quantity}
-         inputProps={{ min: 1, max: 30 }}
-         onChange={handleQuantityChange}
-         onClick={handleIncreaseQuantity}
-       />
-       {/* <Button variant="contained" onClick={handleIncreaseQuantity}>
-         +
-       </Button> */}
-     </FormControl>
-      {/* <button onClick={handleIncreaseQuantity}>+</button> */}
-      </div>
-
-      <br/>
-      <div style={{ marginTop: '30px', marginRight: '20px' }}>
-      {/* <button onClick={handleAddToCart}>Add to Cart</button> */}
-      <FormControlLabel control={<Checkbox checked={checked}
-      onChange={handleChange}/>} label="Confirm Request" />
-          </div>
-          {/* <Button  variant="contained"
-                type="submit"
-              onClick={handleSubmit}>SUBMIT</Button>
-          
-          <Button onClick={resetForm}>CANCEL</Button> */}
-        
-         <Button
-           variant="contained"
-           color="primary"
-           onClick={() => addUserDetails()}
-         >
-          SUBMIT
-         </Button>
-      
-        
-          
-          {/* <Button onClick={resetForm}>RESET</Button> */}
-          </Card>
-          </Grid>
-        {/* </Form> */}
-        </form>
-        
-      </Wrapper>
-    </Container>
-    //  <Container>
-    //   <Typography variant="h4">LEAVE REQUEST</Typography>
-    //   <FormControl>
-    //     <InputLabel htmlFor="my-input">Subject</InputLabel>
-    //     <Input
-    //       onChange={(e) => onValueChange(e)}
-    //       name="name"
-    //       value={name}
-    //       id="my-input"
-    //     />
-    //   </FormControl>
-    //  <FormControl>
-    //   <InputLabel id="leave-type-label">Leave Type</InputLabel>
-    //   <Select
-    //     labelId="leave-type-label"
-    //     id="leave-type-select"
-    //     value={selectedItem}
-    //     onChange={handleSelectChange}
-    //   >
-    //     <MenuItem value="">
-    //       <em>None</em>
-    //     </MenuItem>
-    //     <MenuItem value="item1">Casual Leave</MenuItem>
-    //     <MenuItem value="item2">Annual Leave</MenuItem>
-    //     <MenuItem value="item3">Sick Leave</MenuItem>
-    //   </Select>
-    // </FormControl>
-    //   <FormControl>
-    //     <InputLabel htmlFor="my-input">Message</InputLabel>
-    //     <Input
-    //       onChange={(e) => onValueChange(e)}
-    //       name="message"
-    //       value={message}
-    //       id="my-input"
-    //     />
-    //   </FormControl>
-    //   <FormControl>
-    //   <InputLabel htmlFor="number-of-days-input">Number of Days</InputLabel>
-    //   <Input
-    //     id="number-of-days-input"
-    //     type="number"
-    //     value={quantity}
-    //     inputProps={{ min: 1, max: 30 }}
-    //     onChange={handleQuantityChange}
-    //   />
-    //   <Button variant="contained" onClick={handleIncreaseQuantity}>
-    //     +
-    //   </Button>
-    // </FormControl>
-    //   <FormControl>
-    //     <Button
-    //       variant="contained"
-    //       color="primary"
-    //       onClick={() => addUserDetails()}
-    //     >
-    //      SUBMIT
-    //     </Button>
-    //   </FormControl>
-    // </Container>
-  );
-};
-
-export default EmployeeLeave;
+export default Addleave;
