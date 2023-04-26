@@ -134,7 +134,7 @@ const rejectApi = async(id) => {
               <TableCell>
               <Button sx={{ backgroundColor: "green",marginLeft:"2px" }} color="secondary" variant="contained" onClick={() => approveApi(user._id)}>APPROVE</Button>
               <Button sx={{ backgroundColor: "#B33A3A",marginLeft:"2px" }} color="secondary" variant="contained" onClick={() => rejectApi(user._id)}>REJECT</Button>
-              <Button sx={{ backgroundColor: "#B33A3A" ,marginLeft:"2px"}} color="secondary" variant="contained" onClick={() => deleteUserData('api/complaints/'+user._id)}>Delete</Button>
+              <Button sx={{ backgroundColor: "#B33A3A" ,marginLeft:"2px"}} color="secondary" variant="contained" onClick={() => deleteUserData('api/leave/'+user._id)}>Delete</Button>
               </TableCell>
             </TRow>
           ))}

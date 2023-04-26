@@ -37,7 +37,7 @@ const EditEmployeeData = () => {
 
     const editUserDetails = async () => {
         const response = await editUser('api/users/' + id, user);
-        navigate('/complains');
+        navigate('/employees');
     }
 
     const onValueChange = (e) => {
