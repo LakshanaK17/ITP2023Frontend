@@ -262,7 +262,7 @@ function App() {
     // <UserContext.Provider value={{ user, setUser }}>
     <BrowserRouter>
       {/* <NavBar> */}
-      <ul>
+      {/* <ul>
         <li>
           <Link to="/">Home</Link>
         </li>
@@ -281,7 +281,7 @@ function App() {
             <Link to="/user">EMPLOYEE Page</Link>
           </li>
         )}
-      </ul>
+      </ul> */}
       {/* </NavBar> */}
       <Routes>
         {/* <Route
