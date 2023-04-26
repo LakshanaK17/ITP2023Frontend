@@ -39,6 +39,7 @@ import UserComplainMains from "./Component/userComplains/main";
 import Reservation from "./Component/userSeatBooking/main";
 import ReservationEdit from "./Component/userSeatBooking/editMain";
 import ReservationAdd from "./Component/userSeatBooking/addMain";
+import UserProfile from "./Component/userprofile/UserProfile";
 // import "../src/styles.css";
 
 function App() {
@@ -72,7 +73,7 @@ function App() {
       {...rest}
       exact={true}
       path="/admin"
-    // element={userType === "admin" ? <Login /> : <Login />}
+      // element={userType === "admin" ? <Login /> : <Login />}
     />
   );
 
@@ -157,7 +158,7 @@ function App() {
     },
     {
       path: "/userprofile",
-      component: <UserComplain />,
+      component: <UserProfile />,
       exact: true,
     },
     {
@@ -179,7 +180,7 @@ function App() {
       path: "/reservation",
       component: <Reservation />,
       exact: true,
-    }, 
+    },
     {
       path: "/reservation/edit/:id",
       component: <ReservationEdit />,
@@ -189,7 +190,7 @@ function App() {
       path: "/reservation/add",
       component: <ReservationAdd />,
       exact: true,
-    }, 
+    },
     {
       path: "*",
       component: <UserHome />,
@@ -260,28 +261,28 @@ function App() {
   return (
     // <UserContext.Provider value={{ user, setUser }}>
     <BrowserRouter>
-      <NavBar>
-        <ul>
+      {/* <NavBar> */}
+      <ul>
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        {userType === "ADMIN" && (
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/admin">Admin Page</Link>
           </li>
-          {userType === "ADMIN" && (
-            <li>
-              <Link to="/admin">Admin Page</Link>
-            </li>
-          )}
-          {userType === "USER" && (
-            <li>
-              <Link to="/user">USER Page</Link>
-            </li>
-          )}
-          {userType === "EMPLOYEE" && (
-            <li>
-              <Link to="/user">EMPLOYEE Page</Link>
-            </li>
-          )}
-        </ul>
-      </NavBar>
+        )}
+        {userType === "USER" && (
+          <li>
+            <Link to="/user">USER Page</Link>
+          </li>
+        )}
+        {userType === "EMPLOYEE" && (
+          <li>
+            <Link to="/user">EMPLOYEE Page</Link>
+          </li>
+        )}
+      </ul>
+      {/* </NavBar> */}
       <Routes>
         {/* <Route
        path="/"

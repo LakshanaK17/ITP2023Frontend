@@ -47,7 +47,7 @@ const EditUserComplainData = () => {
         <Container injectFirst>
             <Typography variant="h4">Edit Information</Typography>
             <FormControl>
-                <InputLabel htmlFor="my-input">Responce</InputLabel>
+                <InputLabel htmlFor="my-input">Response</InputLabel>
                 <Input onChange={(e) => onValueChange(e)} name='adminResponse' value={adminResponse} id="my-input" aria-describedby="my-helper-text" />
             </FormControl>
             <FormControl>

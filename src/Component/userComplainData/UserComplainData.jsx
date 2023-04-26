@@ -113,7 +113,7 @@ const AllUsers = () => {
               <TableCell>{user.adminResponse}</TableCell>
               
               <TableCell>
-                <Button color="primary" variant="contained" style={{ marginRight: 10 }} component={Link} to={`edit/${user._id}`}>Responce</Button> 
+                <Button color="primary" variant="contained" style={{ marginRight: 10 }} component={Link} to={`edit/${user._id}`}>Response</Button> 
                 <Button sx={{ backgroundColor: "#B33A3A" }} color="secondary" variant="contained" onClick={() => deleteUserData('api/complaints/'+user._id)}>Delete</Button>
               </TableCell>
             </TRow>
