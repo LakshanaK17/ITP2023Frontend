@@ -1,6 +1,6 @@
-import react, { useState } from 'react';
+import react, { useEffect, useState } from 'react';
 import { FormGroup, FormControl, InputLabel, Input, Button, styled, Typography, Grid } from '@mui/material';
-import { addUser } from '../../../Service/api';
+import { addUser, getUsers } from '../../../Service/api';
 import { useNavigate } from 'react-router-dom';
 
 import Controls from "../../controls/Controls";
@@ -43,6 +43,8 @@ const Container = styled(FormGroup)`
 
 const AddUser = () => {
     const [user, setUser] = useState(initialValue);
+    const [DriverOpt, setDriverOpt] = useState([]);
+
     // const [userErr, setUserErr] = useState(initialValueErr);
     // const [userErrMsg, setUserErrMsg] = useState(initialValueErrMsg);
 
@@ -86,7 +88,7 @@ const AddUser = () => {
         e.preventDefault()
         if (validate()) {
             addUserDetails()
-            
+
         }
     }
 
@@ -112,14 +114,96 @@ const AddUser = () => {
     }
 
     const addUserDetails = async () => {
-        await addUser(values);
-        navigate('/all');
+        let userDetails = JSON.parse(localStorage.getItem("adminAuth"))
+        let userId = userDetails ? userDetails._id : "not found"
+        let userName = userDetails ? userDetails.email : "not found"
+        let data = {
+            "date": values.date,
+            "time": values.time,
+            "name": values.name,
+            "phone": values.phone,
+            "userId": userId,
+            "username": userId,
+            "transportType": values.transportType,
+        }
+        await addUser("api/reservation", data);
+        navigate('/reservation');
     }
-  
+    const VType = [
+        {
+            "_id": "CAR",
+            "email": "CAR",
+        },
+        {
+            "_id": "VAN",
+            "email": "VAN",
+        },
+        {
+            "_id": "BUS",
+            "email": "BUS",
+        }
+    ]
+    const dd = [
+        {
+            "_id": "64465f22b119ab02d4ac4eb7",
+            "name": "abc",
+            "userrole": "EMPLOYEE",
+            "email": "abc@gnam.cid",
+            "password": "$2a$10$7cJbYMzRSeZzTJXiWlKtBOlnBsSUArHzDyyvbe12mfu3fBrdvAPya",
+            "accessType": "PENDING",
+            "createdAt": "2023-04-24T10:51:14.415Z",
+            "updatedAt": "2023-04-24T10:51:14.415Z",
+            "__v": 0
+        },
+        {
+            "_id": "64465f35b119ab02d4ac4eba",
+            "name": "cdddde",
+            "userrole": "EMPLOYEE",
+            "email": "defe",
+            "password": "$2a$10$gAXjEf8Sl7mqg1hDBQ9BNu5Iq1JFIl0gwBl1bUVpQ/X5MS82.Mb0i",
+            "accessType": "PENDING",
+            "createdAt": "2023-04-24T10:51:33.942Z",
+            "updatedAt": "2023-04-24T10:51:33.942Z",
+            "__v": 0
+        },
+        {
+            "_id": "644668836193c6518a3ced01",
+            "name": "rushanth",
+            "userrole": "EMPLOYEE",
+            "email": "B1@B.com",
+            "password": "$2a$10$wc0a8Jq9Qll9rk/PFzw4juGmKpUj9.i1SnKtW.70JVyDLgQL1czjK",
+            "accessType": "Pending",
+            "createdAt": "2023-04-24T11:31:15.394Z",
+            "updatedAt": "2023-04-24T11:31:15.394Z",
+            "__v": 0
+        },
+        {
+            "_id": "6446abfd41f90ca1fe42f7f9",
+            "name": "asdfgh",
+            "userrole": "EMPLOYEE",
+            "email": "lakshana@gmail.com",
+            "password": "$2a$10$J4htpcsVecyJSPm8eqLsY.vvGCZHa2oVfHE8Xg4kHDHsmkYI8YEN6",
+            "accessType": "PENDING",
+            "createdAt": "2023-04-24T16:19:09.961Z",
+            "updatedAt": "2023-04-24T16:19:09.961Z",
+            "__v": 0
+        }
+    ]
+    useEffect(() => {
+        loadUserDetails();
+    }, []);
+    const loadUserDetails = async () => {
+        const response = await getUsers('api/schedule');
+        if (response.data) {
+            let emp = response.data
+            console.log(response, emp);
+            setDriverOpt(emp)
+        }
+    }
     return (
         <Container>
 
-             <Typography variant="h4">Add Booking</Typography>
+            <Typography variant="h4">Add Booking</Typography>
             <Form onSubmit={handleSubmit}>
                 <Grid container>
                     <Grid item xs={12}>
@@ -155,13 +239,30 @@ const AddUser = () => {
                             error={errors.phone}
                             type="number"
                         />
-                        <Controls.Input
+                        {/* <Controls.Select
+                            name="transportType"
+                            label="Type"
+                            value={values.transportType}
+                            onChange={handleInputChange}
+                            options={VType}
+                            error={errors.type}
+                        /> */}
+                        {
+                            DriverOpt && <Controls.Select2
+                                name="transportType"
+                                label="Transport Type"
+                                value={values.transportType}
+                                onChange={handleInputChange}
+                                options={DriverOpt}
+                                error={errors.transportType}
+                            />}
+                        {/* <Controls.Input
                             name="transportType"
                             label="Transport Type"
                             value={values.transportType}
                             onChange={handleInputChange}
                             error={errors.transportType}
-                        />
+                        /> */}
                     </Grid >
                 </Grid >
 
@@ -177,8 +278,8 @@ const AddUser = () => {
                 </div>
 
             </Form>
-           
-           
+
+
         </Container>
     )
 }

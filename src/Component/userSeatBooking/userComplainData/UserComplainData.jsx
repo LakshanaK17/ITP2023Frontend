@@ -103,22 +103,20 @@ const AllUsers = () => {
             <TableCell>Time</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Phone</TableCell>
-            <TableCell>User Name</TableCell>
             <TableCell>Transport Type</TableCell>
             <TableCell></TableCell>
             <TableCell></TableCell>
           </THead>
         </TableHead>
         <TableBody>
-          {searchUsers.map((user) => (
+          {searchUsers.map((user,id) => (
             <TRow key={user.id}>
-              <TableCell>{user._id}</TableCell> {/* change it to user.id to use JSON Server */}
+              <TableCell>{id+1}</TableCell> {/* change it to user.id to use JSON Server */}
               <TableCell>{user.date}</TableCell>
               <TableCell>{user.time}</TableCell>
               <TableCell>{user.name}</TableCell>
               <TableCell>{user.phone}</TableCell>
-              <TableCell>{user.seatsCount}</TableCell>
-              <TableCell>{user.username}</TableCell>
+              <TableCell>{user.transportType}</TableCell>
               <TableCell>
                 <Button color="primary" variant="contained" style={{ marginRight: 10 }} component={Link} to={`edit/${user._id}`}>Edit</Button> {/* change it to user.id to use JSON Server */}
                 <Button sx={{ backgroundColor: "#B33A3A" }} color="secondary" variant="contained" onClick={() => deleteUserData(user._id)}>Delete</Button> {/* change it to user.id to use JSON Server */}
