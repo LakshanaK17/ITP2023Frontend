@@ -49,6 +49,7 @@ function LoginRegister() {
       name: values1.sname,
       email: values1.semail,
       password: values1.spassword,
+      userrole: values1.userrole,
       accessType: "PENDING",
     };
     axios
