@@ -40,6 +40,7 @@ import Reservation from "./Component/userSeatBooking/main";
 import ReservationEdit from "./Component/userSeatBooking/editMain";
 import ReservationAdd from "./Component/userSeatBooking/addMain";
 import UserProfile from "./Component/userprofile/UserProfile";
+import EditUserProfile from "./Component/userprofile/EditUserProfile";
 // import "../src/styles.css";
 
 function App() {
@@ -159,6 +160,11 @@ function App() {
     {
       path: "/userprofile",
       component: <UserProfile />,
+      exact: true,
+    },
+    {
+      path: "/userprofile/edit/:id",
+      component: <EditUserProfile />,
       exact: true,
     },
     {

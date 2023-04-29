@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@mui/styles';
-import { Card, CardHeader, CardMedia, CardActions, IconButton, TextField, Button, Avatar, Menu, MenuItem } from '@mui/material';
+import { Card, Grid, CardHeader, CardMedia, CardActions, IconButton, TextField, Button, Avatar, Menu, MenuItem } from '@mui/material';
 import { MoreVert as MoreVertIcon, Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -97,6 +100,118 @@ const UserProfile = ({ name, pictureUrl, onDelete, onEdit }) => {
           </>
         }
       />
+              <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          Profile
+        </Typography>
+        <div style={{ display: "flex" }}>
+        <Grid   container
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  justifyContent="flex-end"
+                  paddingBottom={2}>
+  <Grid item direction="row" md={6} sm={6} xs={6} spacing={2}>
+        <Typography variant="body2" color="text.secondary">
+        First Name
+        </Typography>
+        </Grid>
+        <Grid item direction="row" md={6} sm={6} xs={6} spacing={2}>
+        <TextField
+   direction="row"
+   alignItems="flex-end"
+   justifyContent="flex-end"
+   sx={{ minWidth: "140px" }}
+  id="fisrtname"
+  // defaultValue="fisrtname"
+  variant="filled"
+  size="small"
+/>
+</Grid>
+</Grid>
+
+        </div>
+        <br/>
+        <div style={{ display: "flex" }}>
+        <Grid   container
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  justifyContent="flex-end"
+                  paddingBottom={2}>
+  <Grid item direction="row" md={6} sm={6} xs={6} spacing={2}>
+        <Typography variant="body2" color="text.secondary">
+        Last Name
+        </Typography>
+        </Grid>
+        <Grid item direction="row" md={6} sm={6} xs={6} spacing={2}>
+        <TextField
+   direction="row"
+   alignItems="flex-end"
+   justifyContent="flex-end"
+   sx={{ minWidth: "140px" }}
+  id="fisrtname"
+  // defaultValue="fisrtname"
+  variant="filled"
+  size="small"
+/>
+</Grid>
+</Grid></div>
+<br/>
+<div style={{ display: "flex" }}>
+  <Grid   container
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  justifyContent="flex-end"
+                  paddingBottom={2}>
+  <Grid item direction="row" md={6} sm={6} xs={6} spacing={2}>
+        <Typography variant="body2" color="text.secondary">
+       Email Address
+        </Typography>
+        </Grid>
+        <Grid item direction="row" md={6} sm={6} xs={6} spacing={2}>
+        <TextField
+   direction="row"
+   alignItems="flex-end"
+   justifyContent="flex-end"
+   sx={{ minWidth: "140px" }}
+  id="fisrtname"
+  // defaultValue="fisrtname"
+  variant="filled"
+  size="small"
+/>
+</Grid>
+</Grid>
+        </div>
+        <br/>
+        <div style={{ display: "flex" }}>
+        <Grid   container
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  justifyContent="flex-end"
+                  paddingBottom={2}>
+  <Grid item direction="row" md={6} sm={6} xs={6} spacing={2}>
+        <Typography variant="body2" color="text.secondary">
+        Contact Number
+        </Typography>
+        </Grid>
+        <Grid item direction="row" md={6} sm={6} xs={6} spacing={2}>
+        <TextField
+   direction="row"
+   alignItems="flex-end"
+   justifyContent="flex-end"
+   sx={{ minWidth: "140px" }}
+  id="fisrtname"
+  // defaultValue="fisrtname"
+  variant="filled"
+  size="small"
+/>
+</Grid>
+</Grid>
+</div>
+      </CardContent>
       <CardMedia
         className={classes.media}
         image={pictureUrl}
