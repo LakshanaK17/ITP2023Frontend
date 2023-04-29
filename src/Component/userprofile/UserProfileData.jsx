@@ -1,7 +1,7 @@
 import react, { useState, useEffect } from 'react';
 import { Table, Card, CardContent, Typography, CardActions, TableHead, TableCell, Paper, TableRow, TableBody, Button, styled, Grid } from '@mui/material'
 import { getUsers, deleteUser } from '../../Service/api';
-import { Link, useParams  } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Input from '../controls/Input';
 
 const StyledTable = styled(Table)`
@@ -28,14 +28,22 @@ const AllUsers = () => {
   const [searchUsers, setSearchUsers] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [id, setId] = useState(null);
   const [SearchingText, setSearchingText] = useState("");
 
-  const { id } = useParams();
+  // const { id } = useParams÷();
   const [user, setUser] = useState({});
 
 
   useEffect(() => {
-    getAllUsers(user._id);
+    let userDetails = JSON.parse(localStorage.getItem("adminAuth"))
+    let userId = userDetails ? userDetails._id : "not found"
+    setId(userId)
+    if(userId !="not found"){
+      getAllUsers(userId);
+      console.log(userId);
+
+    }
   }, []);
   // useEffect(() => {
   //   getEmployee();
@@ -50,12 +58,13 @@ const AllUsers = () => {
   //   getAllUsers();
   // }
 
-  const getAllUsers = async () => {
-    let response = await getUsers('api/users/all');
-    let emp = response.data.filter((item) => item.userrole === "USER");
+  const getAllUsers = async (ids) => {
+    let response = await getUsers(`api/users/${ids}`);
+    let emp = response.data
 
+    // var sa÷mple = users.push(emp)
     setUsers(emp);
-    setSearchUsers(emp);
+    // setSearchUsers(sample);
     console.log(emp);
   }
   const getEmployee = async () => {
@@ -111,7 +120,7 @@ const AllUsers = () => {
       </Grid>
       {/* <StyledTable> */}
 
-        {/* <TableHead>
+      {/* <TableHead>
           <THead>
             <TableCell>Id</TableCell>
             <TableCell>Name</TableCell>   
@@ -124,28 +133,28 @@ const AllUsers = () => {
           </THead>
         </TableHead> */}
 
-        {searchUsers.map((user, i) => (
-        <Card key={user._id} sx={{ maxWidth: 345, margin: '0 auto 20px' }}>
+      {/* {searchUsers.map((user, i) => ( */}
+      {users &&  <Card key={users._id} sx={{ maxWidth: 345, margin: '0 auto 20px' }}>
           <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-             ID: {i+1}
+            <Typography gutterBottom variant="h5" component="div">
+              ID: { users._id}
             </Typography>
             <Typography gutterBottom variant="h5" component="div">
-             Name: {user.name}
+              Name: {users.name}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Email: {user.email}
+              Email: {users.email}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Role: {user.userrole}
+              Role: {users.userrole}
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small" component={Link} to={`edit/${user._id}`}>Edit</Button>
+            <Button size="small" component={Link} to={`edit/${users._id}`}>Edit</Button>
             {/* <Button size="small" color="error" onClick={() => deleteUserData(user._id)}>Delete</Button> */}
           </CardActions>
-        </Card>
-      ))}
+        </Card>}
+      {/* ))} */}
       {/* </StyledTable> */}
     </div>
   )
