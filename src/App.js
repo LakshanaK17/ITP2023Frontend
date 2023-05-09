@@ -114,6 +114,11 @@ function App() {
       exact: true,
     },
     {
+      path: "/users/edit/:id",
+      component: <EditEmployeeData />,
+      exact: true,
+    },
+    {
       path: "/employees/edit/:id",
       component: <EditEmployeeData />,
       exact: true,
@@ -344,14 +349,10 @@ function App() {
         {/* <Route  path="/admin" element={<AdminPage />} /> */}
         {/* <Route path="/loginpage" element={<LoginPage />} /> */}
         {/* <Route path="/newuser" element={<CodeForInterview />} /> */}
-        <Route path="users">
+        {/* <Route path="users">
           <Route index element={<List />} />
           <Route path=":userId" element={<List />} />
-          {/* <Route
-            path="new"
-            element={<New inputs={userInputs} title="Add New User" />}
-          /> */}
-        </Route>
+        </Route> */}
       </Routes>
     </BrowserRouter>
     // </UserContext.Provider>

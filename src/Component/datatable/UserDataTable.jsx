@@ -43,7 +43,7 @@ const AllUsers = () => {
 
     setUsers(emp);
     setSearchUsers(emp);
-    console.log(emp);
+    console.log(emp,response);
   }
   const onsearch = (e) => {
     setSearchingText(e.target.value);
@@ -94,7 +94,7 @@ const AllUsers = () => {
 
         <TableHead>
           <THead>
-            <TableCell>Id</TableCell>
+            <TableCell>Idfsdsd</TableCell>
             <TableCell>Name</TableCell>   
             <TableCell>Email</TableCell>
             <TableCell>Role</TableCell>
