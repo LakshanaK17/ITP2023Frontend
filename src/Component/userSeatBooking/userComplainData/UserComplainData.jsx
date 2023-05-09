@@ -3,6 +3,7 @@ import { Table, TableHead, TableCell, Paper, TableRow, TableBody, Button, styled
 import { getUsers, deleteUser } from '../../../Service/api';
 import { Link } from 'react-router-dom';
 import Input from '../../controls/Input';
+import { CSVLink } from 'react-csv';
 
 const StyledTable = styled(Table)`
     width: 90%;
@@ -31,7 +32,18 @@ const  AllUsers = () => {
   useEffect(() => {
     getAllUsers();
   }, []);
-
+  const data = [
+    { name: 'John Doe', age: 30 },
+    { name: 'Jane Smith', age: 25 },
+    { name: 'Bob Johnson', age: 45 },
+  ];
+  const headers = [
+    { label: 'date', key: 'date' },
+    { label: 'time', key: 'time' },
+    { label: 'name', key: 'name' },
+    { label: 'phone', key: 'phone' },
+    { label: 'transportType', key: 'transportType' },
+  ];
   const deleteUserData = async (id) => {
     await deleteUser('api/reservation/'+id);
     getAllUsers();
@@ -66,7 +78,14 @@ const  AllUsers = () => {
       <br />
       <Grid container >
         <Grid item xs={6}>
+          {
+            searchUsers && searchUsers.length > 0 &&
+
+        <CSVLink data={searchUsers} headers={headers}>Download CSV</CSVLink>
+          }
+
         </Grid>
+
         <Grid item xs={5}>
           <input
             type="text"
