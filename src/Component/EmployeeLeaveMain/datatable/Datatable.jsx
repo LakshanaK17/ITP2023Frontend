@@ -100,7 +100,7 @@ const AllUsers = () => {
             <TableCell>Title</TableCell>
             <TableCell>Body</TableCell>
             <TableCell>Date</TableCell>
-            <TableCell>Role</TableCell>
+            <TableCell>Response</TableCell>
           </THead>
         </TableHead>
 

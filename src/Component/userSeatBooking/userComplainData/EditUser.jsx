@@ -69,7 +69,7 @@ const EditUser = () => {
                 <Input onChange={(e) => onValueChange(e)} name='name' value={name} id="my-input" aria-describedby="my-helper-text" />
             </FormControl>
             <FormControl>
-                <InputLabel htmlFor="my-input">UserName</InputLabel>
+                <InputLabel htmlFor="my-input">Seats Count</InputLabel>
                 <Input onChange={(e) => onValueChange(e)} name='seatsCount' value={seatsCount} id="my-input" aria-describedby="my-helper-text" />
             </FormControl>
             

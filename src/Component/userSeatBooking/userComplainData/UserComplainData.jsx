@@ -65,7 +65,7 @@ const  AllUsers = () => {
     let filterData =
       users.filter(
         (item) =>
-          String(item.name.toUpperCase()).startsWith(e.target.value.toUpperCase()) ||
+          String(item.transportType.toUpperCase()).startsWith(e.target.value.toUpperCase()) ||
           String(item.id).startsWith(e.target.value)
       ) || [];
     if (filterData.length > 0) {
@@ -81,7 +81,7 @@ const  AllUsers = () => {
           {
             searchUsers && searchUsers.length > 0 &&
 
-        <CSVLink data={searchUsers} headers={headers}>Download CSV</CSVLink>
+        <CSVLink data={searchUsers} headers={headers}><Button color="primary" variant="contained" style={{ marginRight: 10 }}>Download CSV</Button></CSVLink>
           }
 
         </Grid>
