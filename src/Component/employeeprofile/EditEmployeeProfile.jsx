@@ -33,17 +33,11 @@ const Container = styled(FormGroup)`
 
 const EditEmployeeData = () => {
   const [user, setUser] = useState(initialValue);
-  // const { adminResponse, name, email } = user;
-  const [errors, setErrors] = useState({});
   const { adminResponse, name, email, nic, gender, address } = user;
-
   const { id } = useParams();
+  const [errors, setErrors] = useState({});
 
   let navigate = useNavigate();
-
-  useEffect(() => {
-    loadUserDetails();
-  }, []);
 
   const validateForm = () => {
     let validationErrors = {};
@@ -59,9 +53,6 @@ const EditEmployeeData = () => {
     if (!email) {
       validationErrors.email = "Email is required";
     }
-    if (!nic) {
-      validationErrors.nic = "NIC is required";
-    }
 
     if (!address) {
       validationErrors.address = "Address is required";
@@ -70,6 +61,11 @@ const EditEmployeeData = () => {
     return validationErrors;
   };
 
+
+  useEffect(() => {
+    loadUserDetails();
+  }, []);
+
   const loadUserDetails = async () => {
     const response = await getUsers("api/users/" + id);
     setUser(response.data);
@@ -77,10 +73,9 @@ const EditEmployeeData = () => {
 
   const editUserDetails = async () => {
     const validationErrors = validateForm();
-   
     if (Object.keys(validationErrors).length === 0) {
       const response = await editUser("api/users/" + id, user);
-      navigate("/userprofile");
+      navigate("/employeeprofile");
     } else {
       setErrors(validationErrors);
     }
@@ -96,7 +91,7 @@ const EditEmployeeData = () => {
   return (
     <Container injectFirst>
       <Typography variant="h4">Edit Information</Typography>
-      <FormControl error={!!errors.name}>
+      <FormControl error={errors.name}>
         <InputLabel htmlFor="my-input">Name</InputLabel>
         <Input
           onChange={(e) => onValueChange(e)}
@@ -105,11 +100,9 @@ const EditEmployeeData = () => {
           id="my-input"
           aria-describedby="my-helper-text"
         />
+         {errors.name && <Typography color="error">{errors.name}</Typography>}
       </FormControl>
-      {errors.name && (
-        <Typography color="error">{errors.name}</Typography>
-      )}
-      <FormControl error={!!errors.gender}>
+      <FormControl error={errors.gender}>
         <InputLabel htmlFor="my-input">Gender</InputLabel>
         <Input
           onChange={(e) => onValueChange(e)}
@@ -118,23 +111,9 @@ const EditEmployeeData = () => {
           id="my-input"
           aria-describedby="my-helper-text"
         />
+         {errors.gender && <Typography color="error">{errors.gender}</Typography>}
       </FormControl>
-      {errors.gender && (
-        <Typography color="error">{errors.gender}</Typography>
-      )}
-      <FormControl error={!!errors.nic}>
-        <InputLabel htmlFor="my-input">NIC</InputLabel>
-        <Input
-          onChange={(e) => onValueChange(e)}
-          name="nic"
-          value={nic}
-          id="my-input"
-          aria-describedby="my-helper-text"
-        />
-        
-      </FormControl>
-      {errors.nic && <Typography color="error">{errors.nic}</Typography>}
-      <FormControl error={!!errors.email}>
+      <FormControl error={errors.email}>
         <InputLabel htmlFor="my-input">Email</InputLabel>
         <Input
           onChange={(e) => onValueChange(e)}
@@ -143,9 +122,9 @@ const EditEmployeeData = () => {
           id="my-input"
           aria-describedby="my-helper-text"
         />
+        {errors.email && <Typography color="error">{errors.email}</Typography>}
       </FormControl>
-      {errors.email && <Typography color="error">{errors.email}</Typography>}
-      <FormControl error={!!errors.address}>
+      <FormControl error={errors.address}>
         <InputLabel htmlFor="my-input">Address</InputLabel>
         <Input
           onChange={(e) => onValueChange(e)}
@@ -154,14 +133,14 @@ const EditEmployeeData = () => {
           id="my-input"
           aria-describedby="my-helper-text"
         />
+        {errors.address && <Typography color="error">{errors.address}</Typography>}
       </FormControl>
-      {errors.address && <Typography color="error">{errors.address}</Typography>}
       {/* <FormControl>
         <InputLabel htmlFor="my-input">Registration Date</InputLabel>
         <Input
           onChange={(e) => onValueChange(e)}
           name="registrationdate"
-          value={name}
+          value={d}
           id="my-input"
           aria-describedby="my-helper-text"
         />

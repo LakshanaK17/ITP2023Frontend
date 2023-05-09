@@ -49,6 +49,7 @@ const AddUser = () => {
     // const [userErrMsg, setUserErrMsg] = useState(initialValueErrMsg);
 
     const validate = (fieldValues = values) => {
+        
         let temp = { ...errors }
         if ('date' in fieldValues)
             temp.date = fieldValues.date ? "" : "This field is required."
@@ -90,8 +91,34 @@ const AddUser = () => {
             addUserDetails()
 
         }
+        else {
+            // Fields are not valid, mark them as required
+            setErrors((prevErrors) => ({
+              ...prevErrors,
+              date: values.date ? "" : "This field is required.",
+              time: values.time ? "" : "This field is required.",
+              name: values.name ? "" : "This field is required.",
+              phone: values.phone ? "" : "This field is required.",
+              transportType: values.transportType ? "" : "This field is required.",
+            }));
+          }
     }
 
+    const handleProceedToPayment = e => {
+        e.preventDefault()
+        if (validate()) {
+          addReservationDetails();
+        } else {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            date: values.date ? "" : "This field is required.",
+            time: values.time ? "" : "This field is required.",
+            name: values.name ? "" : "This field is required.",
+            phone: values.phone ? "" : "This field is required.",
+            transportType: values.transportType ? "" : "This field is required.",
+          }));
+        }
+      };
 
     const {
         date,
@@ -129,6 +156,25 @@ const AddUser = () => {
         await addUser("api/reservation", data);
         navigate('/reservation');
     }
+
+    
+    const addReservationDetails = async () => {
+        let userDetails = JSON.parse(localStorage.getItem("adminAuth"))
+        let userId = userDetails ? userDetails._id : "not found"
+        let userName = userDetails ? userDetails.email : "not found"
+        let data = {
+            "date": values.date,
+            "time": values.time,
+            "name": values.name,
+            "phone": values.phone,
+            "userId": userId,
+            "username": userId,
+            "transportType": values.transportType,
+        }
+        await addUser("api/reservation", data);
+        navigate('/payment');
+    }
+    
     const VType = [
         {
             "_id": "CAR",
@@ -267,6 +313,7 @@ const AddUser = () => {
                 </Grid >
 
                 <div>
+                    <div>
                     <Controls.Button
                         type="submit"
                         text="Submit" />
@@ -275,7 +322,16 @@ const AddUser = () => {
                         color=""
                         variant="outlined"
                         onClick={resetForm} />
+                        </div>
+                        <div style={{ position: "absolute", right: 40, }}>
+                          <Controls.Button
+                        type="submit"
+                        text="Proceed to Payment" 
+                        justifyContent= "flex-end"
+                        onClick={handleProceedToPayment} />
+                        </div>
                 </div>
+              
 
             </Form>
 

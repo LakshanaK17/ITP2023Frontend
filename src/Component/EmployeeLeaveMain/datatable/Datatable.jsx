@@ -53,7 +53,7 @@ const AllUsers = () => {
     let filterData =
       users.filter(
         (item) =>
-          String(item.name.toUpperCase()).startsWith(e.target.value.toUpperCase()) ||
+          String(item.leaveTitle.toUpperCase()).startsWith(e.target.value.toUpperCase()) ||
           String(item.id).startsWith(e.target.value)
       ) || [];
     if (filterData.length > 0) {
@@ -97,8 +97,9 @@ const AllUsers = () => {
         <TableHead>
           <THead>
             <TableCell>Id</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Email</TableCell>
+            <TableCell>Title</TableCell>
+            <TableCell>Body</TableCell>
+            <TableCell>Date</TableCell>
             <TableCell>Role</TableCell>
           </THead>
         </TableHead>
@@ -110,6 +111,7 @@ const AllUsers = () => {
               <TableCell>{i + 1}</TableCell>
               <TableCell>{user.leaveTitle}</TableCell>
               <TableCell>{user.leaveBody}</TableCell>
+              <TableCell>{user.date}</TableCell>
               <TableCell>{user.adminResponse ? user.adminResponse : "PENDING"}</TableCell>
               {/* <TableCell>
                 <Button color="primary" variant="contained" style={{ marginRight: 10 }} component={Link} to={`edit/${user._id}`}>EDIT</Button> 

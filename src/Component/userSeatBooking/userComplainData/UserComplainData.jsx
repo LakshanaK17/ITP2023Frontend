@@ -23,7 +23,7 @@ const TRow = styled(TableRow)`
     }
 `;
 
-const AllUsers = () => {
+const  AllUsers = () => {
   const [users, setUsers] = useState([]);
   const [searchUsers, setSearchUsers] = useState([]);
   const [SearchingText, setSearchingText] = useState("");

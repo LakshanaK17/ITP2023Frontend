@@ -59,11 +59,11 @@ const Addcomplain = () => {
 
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
-    // if ("date" in fieldValues)
-    //   temp.date = fieldValues.date ? "" : "This field is required.";
+    if ("date" in fieldValues)
+      temp.date = fieldValues.date ? "" : "This field is required.";
 
     if ("title" in fieldValues) {
-      temp.title = fieldValues.title ? "" : "This field is required.";
+      temp.title = fieldValues.title.trim() ? "" : "This field is required.";
     }
     if ("body" in fieldValues) {
       temp.body = fieldValues.body ? "" : "This field is required.";
@@ -89,9 +89,15 @@ const Addcomplain = () => {
   const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
     useForm(initialValue, true, validate);
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (true) {
+  //     addUserComplain();
+  //   }
+  // };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (true) {
+    if (validate()) {
       addUserComplain();
     }
   };
@@ -102,6 +108,7 @@ const Addcomplain = () => {
 
   const onValueChange = (e) => {
     console.log(e.target.value, "e.target.value");
+
     // if(e.target.value ===""){
     //     setUserErr({...userErr,[e.target.name]:true})
     //     setUserErrMsg({...userErr,[e.target.name]:'wrong'})
@@ -116,20 +123,25 @@ const Addcomplain = () => {
     navigate("/usercomplainequest");
   };
   const addUserComplain = async () => {
-    let userDetails = JSON.parse(localStorage.getItem("adminAuth"))
-    let userId =userDetails ? userDetails._id:"not found"
-    let data ={
-        "title":values.title,
-        "body":values.body,
-        "adminResponse":"",
-        "userId":userId
-    }
-    console.log(userDetails,data);
-    await addUser('api/complaints', data);
-    navigate('/usercomplainequest');
-}
+    let userDetails = JSON.parse(localStorage.getItem("adminAuth"));
+    let userId = userDetails ? userDetails._id : "not found";
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
 
- 
+    let da = new Date(Date.now()).toLocaleDateString();
+    console.log(da);
+    let data = {
+      title: values.title,
+      body: values.body,
+      date: new Date(Date.now()).toLocaleDateString(),
+      adminResponse: "",
+      userId: userId,
+    };
+    console.log(userDetails, data);
+    await addUser("api/complaints", data);
+    navigate("/usercomplainequest");
+  };
+
   return (
     <Container>
       <Typography variant="h4">COMPLAINT REQUEST</Typography>
@@ -142,17 +154,26 @@ const Addcomplain = () => {
               value={values.title}
               onChange={handleInputChange}
               error={errors.title}
-              type="name"
+              required
             />
 
             <Controls.Input
               name="body"
-              label="Body"
+              label="Message"
               value={values.body}
               onChange={handleInputChange}
               error={errors.body}
             />
-            
+            <Controls.Input
+              name="date"
+              label="Date"
+              value={values.date}
+              onChange={handleInputChange}
+              error={errors.date}
+              type="date"
+              max={new Date().toISOString().split("T")[0]}
+              required
+            />
 
             {/* <Controls.Input
                             name="driverName"

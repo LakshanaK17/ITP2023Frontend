@@ -92,7 +92,7 @@ const AllUsers = () => {
  <Grid item xs={6}>
         </Grid>
         <Grid item xs={6}>
-          <Button color="primary" variant="contained" style={{ marginRight: 10 }} component={Link} to={`add`}>Add Schedule</Button>
+          <Button color="primary" variant="contained" style={{ marginRight: 10 }} component={Link} to={`add`}>Add Vehicle</Button>
 
         </Grid>
       <StyledTable>
@@ -102,6 +102,7 @@ const AllUsers = () => {
             <TableCell>Id</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Number</TableCell>
+            <TableCell>Type</TableCell>
             <TableCell>Status</TableCell>
             <TableCell>Driver</TableCell>
 
@@ -118,6 +119,7 @@ const AllUsers = () => {
               <TableCell>{i + 1}</TableCell>
               <TableCell>{user.name}</TableCell>
               <TableCell>{user.number}</TableCell>
+              <TableCell>{user.type}</TableCell>
               <TableCell>{user.status === true ? "Available" : "Unavailable"}</TableCell>
               <TableCell>{user.driverName}</TableCell>
 

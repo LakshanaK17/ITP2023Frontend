@@ -53,13 +53,24 @@ const AllUsers = () => {
     let filterData =
       users.filter(
         (item) =>
-          String(item.name.toUpperCase()).startsWith(e.target.value.toUpperCase()) ||
+          String(item.title.toUpperCase()).startsWith(e.target.value.toUpperCase()) ||
           String(item.id).startsWith(e.target.value)
       ) || [];
     if (filterData.length > 0) {
       setSearchUsers(filterData);
     }
   };
+
+//   const onsearch = (e) => {
+//   setSearchingText(e.target.value);
+//   let filterData =
+//     users.filter(
+//       (item) =>
+//         String(item.name.toUpperCase()).startsWith(e.target.value.toUpperCase()) ||
+//         String(item.id).startsWith(e.target.value)
+//     ) || [];
+//   setSearchUsers(filterData);
+// };
   return (
     <div>
       <br />
@@ -99,7 +110,8 @@ const AllUsers = () => {
           <THead>
             <TableCell>Id</TableCell>
             <TableCell>Title</TableCell>
-            <TableCell>Body</TableCell>
+            <TableCell>Message</TableCell> 
+            <TableCell>Date</TableCell> 
             <TableCell>Response</TableCell>
 
             
@@ -114,7 +126,8 @@ const AllUsers = () => {
               <TableCell>{i+1}</TableCell> 
               <TableCell>{user.title}</TableCell>
               <TableCell>{user.body}</TableCell>
-              <TableCell>{user.adminResponse}</TableCell>
+              <TableCell>{user.date}</TableCell>
+              <TableCell>{user.adminResponse === "" ? "PENDING" : "ACCEPT" }</TableCell>
               
               
             </TRow>

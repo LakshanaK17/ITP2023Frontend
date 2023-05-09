@@ -1,8 +1,7 @@
-import "./userprofile.css"
-import Sidebar from "../../Component/employeesidebar/EmployeeSidebar"
+import "./list.css"
+import Sidebar from "../../Component/sidebar/Sidebar"
 import Navbar from "../../Component/navbar/Navbar"
-import UserProfileData from "./EmployeeProfileData"
-
+import UserDataTable from "../../Component/datatable/UserDataTable"
 
 const List = () => {
   return (
@@ -10,7 +9,7 @@ const List = () => {
       <Sidebar/>
       <div className="listContainer">
         <Navbar/>
-        <UserProfileData/>
+        <UserDataTable/>
       </div>
     </div>
   )

@@ -51,7 +51,7 @@ const AllUsers = () => {
     let filterData =
       users.filter(
         (item) =>
-          String(item.name.toUpperCase()).startsWith(e.target.value.toUpperCase()) ||
+          String(item.leaveTitle.toUpperCase()).startsWith(e.target.value.toUpperCase()) ||
           String(item.id).startsWith(e.target.value)
       ) || [];
     if (filterData.length > 0) {
@@ -116,6 +116,7 @@ const rejectApi = async(id) => {
             <TableCell>Id</TableCell>
             <TableCell>Title</TableCell>
             <TableCell>Body</TableCell>
+            <TableCell>Date</TableCell>
             <TableCell>Response</TableCell>
 
             
@@ -130,6 +131,7 @@ const rejectApi = async(id) => {
               <TableCell>{i+1}</TableCell> 
               <TableCell>{user.leaveTitle}</TableCell>
               <TableCell>{user.leaveBody}</TableCell>
+              <TableCell>{user.date}</TableCell>
               <TableCell>{user.adminResponse}</TableCell>
               <TableCell>
               <Button sx={{ backgroundColor: "green",marginLeft:"2px" }} color="secondary" variant="contained" onClick={() => approveApi(user._id)}>APPROVE</Button>

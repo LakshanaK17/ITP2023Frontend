@@ -144,17 +144,8 @@ const AllUsers = () => {
             <Typography gutterBottom variant="h5" component="div">
               Name: {users.name}
             </Typography>
-            
-            <Typography variant="body2" color="text.secondary">
-              Email: {users.email}
-            </Typography>
-            <br/>
             <Typography variant="body2" color="text.secondary">
               Gender: {users.gender}
-            </Typography>
-            <br/>
-            <Typography variant="body2" color="text.secondary">
-              NIC: {users.nic}
             </Typography>
             <br/>
             <Typography variant="body2" color="text.secondary">
@@ -162,9 +153,12 @@ const AllUsers = () => {
             </Typography>
             <br/>
             <Typography variant="body2" color="text.secondary">
+              Email: {users.email}
+            </Typography>
+            <br/>
+            <Typography variant="body2" color="text.secondary">
               Role: {users.userrole}
             </Typography>
-            
           </CardContent>
           <CardActions>
             <Button  variant="contained"size="small" component={Link} to={`edit/${users._id}`}>Edit</Button>

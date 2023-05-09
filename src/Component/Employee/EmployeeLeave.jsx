@@ -10,6 +10,7 @@ const initialValue = {
     name: "",
     body: '',
     adminResponse: 'REJECTED',
+    date: ""
     // status: 'AVAILABLE',
     // driver: "",
     // driverName: ""
@@ -49,6 +50,7 @@ const Container = styled(FormGroup)`
 const EmployeeLeave = () => {
     const [user, setUser] = useState(initialValue);
     const [DriverOpt, setDriverOpt] = useState(initialValue);
+
     // const [userErr, setUserErr] = useState(initialValueErr);
     // const [userErrMsg, setUserErrMsg] = useState(initialValueErrMsg);
 
@@ -61,8 +63,8 @@ const EmployeeLeave = () => {
             temp.body = fieldValues.body ? "" : "This field is required.";
         }
 
-        // if ('time' in fieldValues)
-        //     temp.time = fieldValues.time ? "" : "This field is required."
+        if ('date' in fieldValues)
+            temp.date = fieldValues.date ? "" : "This field is required."
         // if ('phone' in fieldValues)
         //     temp.phone = fieldValues.phone ? "" : "This field is required."
         // if ('seatsCount' in fieldValues)
@@ -90,7 +92,7 @@ const EmployeeLeave = () => {
 
     const handleSubmit = e => {
         e.preventDefault()
-        if (true) {
+        if (validate()) {
             addEmpLeave()
 
         }
@@ -116,18 +118,19 @@ const EmployeeLeave = () => {
 
     const addEmpLeave = async () => {
         let userDetails = JSON.parse(localStorage.getItem("adminAuth"))
-        let userId =userDetails ? userDetails._id:"not found"
-        let data ={
-            "leaveTitle":values.title,
-            "leaveBody":values.body,
-            "adminResponse":"",
-            "userId":userId
+        let userId = userDetails ? userDetails._id : "not found"
+        let data = {
+            "leaveTitle": values.title,
+            "leaveBody": values.body,
+            date: values.date,
+            "adminResponse": "",
+            "userId": userId
         }
-        console.log(userDetails,data);
+        console.log(userDetails, data);
         await addUser('api/leave', data);
         navigate('/allleave');
     }
-    
+
 
     return (
         <Container>
@@ -152,6 +155,15 @@ const EmployeeLeave = () => {
                             value={values.body}
                             onChange={handleInputChange}
                             error={errors.body}
+                        />
+                        <Controls.Input
+                            name="date"
+                            label="Date"
+                            value={values.date}
+                            onChange={handleInputChange}
+                            error={errors.date}
+                            type="date"
+                            max={new Date().toISOString().split("T")[0]}
                         />
 
                     </Grid >

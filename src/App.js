@@ -19,6 +19,7 @@ import AddUsers from "./Component/AddUsers";
 import EmployeeDetails from "./Component/EmployeeDetails";
 import UserComplain from "./Component/userComplains/UserComplain";
 import List from "./Component/list/List";
+import UserList from "./Component/list/UserList";
 import Home from "./Component/home/Home";
 import Vehicle from "./Component/vehicle/Vehicle";
 import Single from "./Component/employeesingle/Single";
@@ -40,7 +41,9 @@ import Reservation from "./Component/userSeatBooking/main";
 import ReservationEdit from "./Component/userSeatBooking/editMain";
 import ReservationAdd from "./Component/userSeatBooking/addMain";
 import UserProfile from "./Component/userprofile/UserProfile";
+import EditEmployeeProfile from "./Component/employeeprofile/EditEmployeeProfile";
 import EditUserProfile from "./Component/userprofile/EditUserProfile";
+import PaymentPage from "./Component/payment/Payment";
 // import "../src/styles.css";
 
 function App() {
@@ -103,6 +106,11 @@ function App() {
     {
       path: "/employees",
       component: <List />,
+      exact: true,
+    },
+    {
+      path: "/users",
+      component: <UserList />,
       exact: true,
     },
     {
@@ -198,6 +206,11 @@ function App() {
       exact: true,
     },
     {
+      path: "/payment",
+      component: <PaymentPage />,
+      exact: true,
+    },
+    {
       path: "*",
       component: <UserHome />,
       exact: true,
@@ -227,6 +240,11 @@ function App() {
     {
       path: "/employeeprofile",
       component: <EmployeeProfile />,
+      exact: true,
+    },
+    {
+      path: "/employeeprofile/edit/:id",
+      component: <EditEmployeeProfile />,
       exact: true,
     },
     {

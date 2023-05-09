@@ -56,7 +56,7 @@ const EditUser = () => {
         <Container injectFirst>
             <Typography variant="h4">Edit Information</Typography>
             <FormControl>
-                <InputLabel htmlFor="my-input">Date</InputLabel>
+                <InputLabel htmlFor="my-input">Da   te</InputLabel>
                 <Input onChange={(e) => onValueChange(e)} name='date' value={date} id="my-input" aria-describedby="my-helper-text" />
             </FormControl>
             <FormControl>

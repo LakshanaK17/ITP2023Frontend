@@ -25,12 +25,12 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar">
-      <div className="top">
+      {/* <div className="top">
         <Link to="/" style={{ textDecoration: "none" }}>
           <span className="logo">TRANSPORT MANAGEMENT SYSTEM</span>
         </Link>
       </div>
-      <hr />
+      <hr /> */}
       <div className="center">
         <ul>
           <p className="title">MAIN</p>
@@ -50,7 +50,7 @@ const Sidebar = () => {
           <Link to="/usercomplainequest" style={{ textDecoration: "none" }}>
             <li>
               <StoreIcon className="icon" />
-              <span>Old Complaints</span>
+              <span>All Complaints</span>
             </li>
           </Link>
           <Link to="/complainequest" style={{ textDecoration: "none" }}>
@@ -62,7 +62,7 @@ const Sidebar = () => {
           <Link to="/reservation" style={{ textDecoration: "none" }}>
             <li>
               <StoreIcon className="icon" />
-              <span>Seat Booking</span>
+              <span>Vehicle Booking</span>
             </li>
           </Link>
           {/* <Link to="/complains" style={{ textDecoration: "none" }}>
